@@ -1,17 +1,18 @@
 #############################################################################################################################
 
 SRC	=	src/main.c\
-		src/init_stack.c\
 		src/op.c\
 		src/actions.c\
 		src/actions_2.c\
+		src/actions_3.c\
 		src/sort_utils.c\
 		src/push_a_utils.c\
 		src/push_b_utils.c\
 		src/apply.c\
 		src/case_a.c\
 		src/case_b.c\
-		src/parsing.c
+		src/parsing.c\
+		src/parse_utils.c
 
 OBJ		=	$(SRC:.c=.o)
 

@@ -1,21 +1,18 @@
 #include "push_swap.h"
 
-void	print_list(Node *a)
+void	ft_error(void)
 {
-	printf("Current list:  ");
-	Node *y = a;
-	while (y != NULL)
-	{
-		printf("%i   ", y->x);
-		y = y->next;
-	}
-	printf("\n");
+	write (2, "Error\n", 6);
+	exit(1);
 }
 
-int min(Node *a)				// Min int of the stack
+int	min(t_Node *a)				// Min int of the stack
 {
-	Node *curr = a;
-	int i = curr->x;
+	t_Node	*curr;
+	int		i;
+
+	curr = a;
+	i = curr->x;
 	while (curr)
 	{
 		if (curr->x < i)
@@ -25,10 +22,13 @@ int min(Node *a)				// Min int of the stack
 	return (i);
 }
 
-int	max(Node *a)				// Max int of the stack
+int	max(t_Node *a)				// Max int of the stack
 {
-	Node *curr = a;
-	int i = curr->x;
+	t_Node	*curr;
+	int		i;
+
+	curr = a;
+	i = curr->x;
 	while (curr)
 	{
 		if (curr->x > i)
@@ -39,7 +39,7 @@ int	max(Node *a)				// Max int of the stack
 }
 
 // This function returns the size of the stack.
-int	list_size(Node *a)
+int	list_size(t_Node *a)
 {
 	int	i;
 
@@ -53,7 +53,7 @@ int	list_size(Node *a)
 }
 
 // This function returns the last element of the stack.
-Node	*last_node(Node *lst)
+t_Node	*last_node(t_Node *lst)
 {
 	if (!lst)
 		return (NULL);

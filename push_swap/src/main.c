@@ -2,7 +2,7 @@
 
 // This function sort the stack if there are only
 // three elements in the stack.
-void	sort_3(Node **a)
+void	sort_3(t_Node **a)
 {
 	if (min(*a) == (*a)->x)
 	{
@@ -24,25 +24,9 @@ void	sort_3(Node **a)
 	}
 }
 
-// This function checks if the stack is sorted.
-int	sorted(Node *a)
+void	free_all(t_Node **a)
 {
-	int	i;
-
-	i = a->x;
-	while (a)
-	{
-		if (i > a->x)
-			return (0);
-		i = a->x;
-		a = a->next;
-	}
-	return (1);
-}
-
-void	free_all(Node **a)
-{
-	Node	*tmp;
+	t_Node	*tmp;
 
 	if (!a)
 		return ;
@@ -55,17 +39,9 @@ void	free_all(Node **a)
 	}
 }
 
-// This function sorts the a if there are more
-// than 2 elements in the a.
-// And finally it makes final sort in a after
-// all values pushed to b, sorted and pushed
-// back to a. Because, even the a is
-// sorted at the end, the minimum number have to
-// at the top of the a. So, it simply brings
-// the smallest number of the a to the top.
-void	sort(Node **a)
+void	sort(t_Node **a)
 {
-	Node	*b;
+	t_Node	*b;
 	int		i;
 
 	b = NULL;
@@ -89,9 +65,9 @@ void	sort(Node **a)
 	}
 }
 
-int	if_dup(Node *a)
+int	if_dup(t_Node *a)
 {
-	Node	*tmp;
+	t_Node	*tmp;
 
 	while (a)
 	{
@@ -107,12 +83,12 @@ int	if_dup(Node *a)
 	return (0);
 }
 
-
 int	main(int ac, char **av)
 {
-	Node	*a;
+	t_Node	*a;
 
-	a = parsing(ac, av);
+	a = NULL;
+	parsing(ac, av, &a);
 	if (!a || if_dup(a))
 	{
 		free_all(&a);

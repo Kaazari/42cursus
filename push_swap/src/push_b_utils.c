@@ -1,12 +1,10 @@
 #include "push_swap.h"
 
-// This function finds the correct place of the number in b.
-// In other words, it check what index number num will get
-// after it is being pushed to the b.
-int	find_place_b(Node *b, int num)
+// The index from a to b.
+int	find_place_b(t_Node *b, int num)
 {
 	int		i;
-	Node	*tmp;
+	t_Node	*tmp;
 
 	i = 1;
 	if (num > b->x && num < last_node(b)->x)
@@ -26,13 +24,11 @@ int	find_place_b(Node *b, int num)
 	return (i);
 }
 
-// This function finds the correct place of the number in a.
-// In other words, it check what index number num will get
-// after it is being pushed to the a.
-int	find_place_a(Node *a, int num)
+// The index number from b to a.
+int	find_place_a(t_Node *a, int num)
 {
 	int		i;
-	Node	*tmp;
+	t_Node	*tmp;
 
 	i = 1;
 	if (num < a->x && num > last_node(a)->x)
@@ -52,11 +48,11 @@ int	find_place_a(Node *a, int num)
 	return (i);
 }
 
-// This function sort and push stacks until 3 members left behind.
-void	sort_to_3(Node **a, Node **b)
+// This function sort and push stacks until 3 int left.
+void	sort_to_3(t_Node **a, t_Node **b)
 {
 	int		i;
-	Node	*tmp;
+	t_Node	*tmp;
 
 	while (list_size(*a) > 3 && !sorted(*a))
 	{
@@ -78,15 +74,9 @@ void	sort_to_3(Node **a, Node **b)
 	}
 }
 
-// This function one by one pushes all the elements
-// in a to the b, until only three elements
-// are left in a. While pushing, it makes sure if
-// the b is sorted. When three elements are left,
-// it calls the ft_sort_three function to sort left over
-// elements in a.
-Node	*push_b(Node **a)
+t_Node	*push_b(t_Node **a)
 {
-	Node	*b;
+	t_Node	*b;
 
 	b = NULL;
 	if (list_size(*a) > 3 && !sorted(*a))

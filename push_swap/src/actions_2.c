@@ -1,8 +1,10 @@
 #include "push_swap.h"
 
-void	rb(Node **b)
+void	rb(t_Node **b)
 {
-	Node *tmp = *b;
+	t_Node	*tmp;
+
+	tmp = *b;
 	*b = last_node(*b);
 	(*b)->next = tmp;
 	*b = tmp->next;
@@ -10,14 +12,15 @@ void	rb(Node **b)
 	printf("rb\n");
 }
 
-void	rr(Node **a, Node **b)
+void	rr(t_Node **a, t_Node **b)
 {
-	Node *tmp = *a;
+	t_Node	*tmp;
+
+	tmp = *a;
 	*a = last_node(*a);
 	(*a)->next = tmp;
 	*a = tmp->next;
 	tmp->next = NULL;
-
 	tmp = *b;
 	*b = last_node(*b);
 	(*b)->next = tmp;
@@ -26,10 +29,13 @@ void	rr(Node **a, Node **b)
 	printf("rr\n");
 }
 
-void	rra(Node **a)
+void	rra(t_Node **a)
 {
-	Node *tmp = *a;
-	int i = 0;
+	t_Node	*tmp;
+	int		i;
+
+	i = 0;
+	tmp = *a;
 	while ((*a)->next)
 	{
 		*a = (*a)->next;
@@ -45,41 +51,10 @@ void	rra(Node **a)
 	printf("rra\n");
 }
 
-void	rrb(Node **b)
+void	rrb(t_Node **b)
 {
-	Node *tmp = *b;
-	int i = 0;
-	while ((*b)->next)
-	{
-		*b = (*b)->next;
-		i++;
-	}
-	(*b)->next = tmp;
-	while (i > 1)
-	{
-		tmp = tmp->next;
-		i--;
-	}
-	tmp->next = NULL;
-	printf("rrb\n");
-}
-
-void	rrr(Node **a, Node **b)
-{
-	Node *tmp = *a;
-	int i = 0;
-	while ((*a)->next)
-	{
-		*a = (*a)->next;
-		i++;
-	}
-	(*a)->next = tmp;
-	while (i > 1)
-	{
-		tmp = tmp->next;
-		i--;
-	}
-	tmp->next = NULL;
+	t_Node	*tmp;
+	int		i;
 
 	tmp = *b;
 	i = 0;
@@ -95,5 +70,5 @@ void	rrr(Node **a, Node **b)
 		i--;
 	}
 	tmp->next = NULL;
-	printf("rrr\n");
+	printf("rrb\n");
 }

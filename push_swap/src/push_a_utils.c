@@ -1,8 +1,6 @@
 #include "push_swap.h"
 
-// This function checks the index of a number
-// 	 in the stack.
-int	find_index(Node *a, int num)
+int	find_index(t_Node *a, int num)
 {
 	int		i;
 
@@ -15,15 +13,10 @@ int	find_index(Node *a, int num)
 	return (i);
 }
 
-// This function calculate and decides which rotation
-// combination is best to use to sort the stack. Of
-// course, after rotation there is always one push
-// operation is left to do which i embeded to code.
-// Function is used during push from B to A.
-int	best_rotate_ba(Node *a, Node *b)
+int	best_rotate_ba(t_Node *a, t_Node *b)
 {
 	int		i;
-	Node	*tmp;
+	t_Node	*tmp;
 
 	tmp = b;
 	i = rrarrb_a(a, b, b->x);
@@ -42,15 +35,10 @@ int	best_rotate_ba(Node *a, Node *b)
 	return (i);
 }
 
-// This function calculate and decides which rotation
-// combination is best to use to sort the stack. Of
-// course, after rotation there is always one push
-// operation is left to do which i embeded to code.
-// Function is used during push from A to B.
-int	best_rotate_ab(Node *a, Node *b)
+int	best_rotate_ab(t_Node *a, t_Node *b)
 {
 	int		i;
-	Node	*tmp;
+	t_Node	*tmp;
 
 	tmp = a;
 	i = rrarrb(a, b, a->x);
@@ -69,12 +57,10 @@ int	best_rotate_ab(Node *a, Node *b)
 	return (i);
 }
 
-// This function is pushing back the elements from b
-// to a until b is empty.
-Node	**push_a(Node **a, Node **b)
+t_Node	**push_a(t_Node **a, t_Node **b)
 {
 	int		i;
-	Node	*tmp;
+	t_Node	*tmp;
 
 	while (*b)
 	{

@@ -1,58 +1,62 @@
 #include "push_swap.h"
 
-void	sa(Node **a)
+void	sa(t_Node **a)
 {
+	t_Node	*tmp;
+
 	if (!a)
 		return ;
-	Node *tmp = *a;
+	tmp = *a;
 	*a = (*a)->next;
 	tmp->next = (*a)->next;
 	(*a)->next = tmp;
 	printf("sa\n");
 }
 
-void	sb(Node **b)
+void	sb(t_Node **b)
 {
+	t_Node	*tmp;
+
 	if (!b)
 		return ;
-	Node *tmp = *b;
+	tmp = *b;
 	*b = (*b)->next;
 	tmp->next = (*b)->next;
 	(*b)->next = tmp;
 	printf("sb\n");
 }
 
-// void	ss(Node **a, Node **b)
-// {
-// 	sa(a);
-// 	sa(b);
-// }
-
-void	pa(Node **a, Node **b)
+void	pa(t_Node **a, t_Node **b)
 {
+	t_Node	*tmp;
+
 	if (!*b)
 		return ;
-	Node *tmp = *a;
+	tmp = *a;
 	*a = *b;
 	*b = (*b)->next;
 	(*a)->next = tmp;
 	printf("pa\n");
 }
 
-void	pb(Node **a, Node **b)
+void	pb(t_Node **a, t_Node **b)
 {
+	t_Node	*tmp;
+
 	if (!*a)
 		return ;
-	Node *tmp = *b;
+	tmp = *b;
 	*b = *a;
 	*a = (*a)->next;
 	(*b)->next = tmp;
 	printf("pb\n");
 }
 
-void	ra(Node **a)
+void	ra(t_Node **a)
 {
-	Node *tmp = *a;
+	t_Node	*tmp;
+
+	tmp = *a;
 	*a = last_node(*a);
 	(*a)->next = tmp;
 	*a = tmp->next;
