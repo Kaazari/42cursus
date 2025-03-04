@@ -56,7 +56,28 @@ int	ft_exit(t_mlx_data *data)
 	}
 	exit(0);
 }
-// free(data->mlx); to free all -> also an invalid free
+// free(data->mlx); to free all --> also causes an invalid free
+
+void	ff_path(t_mlx_data *data, int px, int py, char filler)
+{
+	if ((py < 0 || py >= data->y || px < 0 || px >= data->x)
+		|| ((data->copy[py][px] != filler && data->copy[py][px] != 'C'
+		&& data->copy[py][px] != 'E')))
+		return ;
+	if (data->copy[py][px] == 'C' || data->copy[py][px] == 'E')
+	{
+		if (data->copy[py][px] == 'C')
+			data->ff_collect++;
+		if (data->copy[py][px] == 'E')
+			data->ff_exit++;
+		data->copy[py][px] = filler;
+	}
+	data->copy[py][px] = 'F';
+	ff_path(data, px + 1, py, filler);
+	ff_path(data, px - 1, py, filler);
+	ff_path(data, px, py + 1, filler);
+	ff_path(data, px, py - 1, filler);
+}
 
 int	main(int ac, char	**av)
 {

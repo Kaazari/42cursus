@@ -45,6 +45,30 @@ void	rendering(t_mlx_data *data)
 	}
 }
 
+char	**ft_copy(t_mlx_data *data)
+{
+	char	**copy;
+	int		i;
+	int		j;
+
+	i = 0;
+	j = 0;
+	copy = (char **)malloc(data->x * sizeof(char *));
+	if (copy == NULL)
+		return (NULL);
+	while (i < data->y)
+	{
+		j = 0;
+		copy[i] = (char *)malloc(data->y * sizeof(char));
+		if (copy[i] == NULL)
+			ft_exit(data);
+		while (j++ < data->x)
+			copy[i][j] = data->map[i][j];
+		i++;
+	}
+	return (copy);
+}
+
 int	add(t_mlx_data *data, char *line, char **temp)
 {
 	int	i;
@@ -72,7 +96,7 @@ int	mapline(char **av, t_mlx_data *data)
 {
 	char	**temp;
 	char	*line;
-	int	dir;
+	int		dir;
 
 	dir = open(av[1], O_RDWR);
 	if (dir < 0)

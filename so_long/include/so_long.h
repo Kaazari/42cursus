@@ -28,6 +28,10 @@ typedef struct	s_mlx_data {
 	void	*floor;
 	void	*exit;
 
+	char	**copy;
+	int		ff_exit;
+	int		ff_collect;
+
 	int		steps;		// stats
 	int		collected;
 	int		collectible_nb;
@@ -55,7 +59,9 @@ int		ft_exit(t_mlx_data *data);
 int		controls(int command, t_mlx_data *data);
 void	xpm_data(t_mlx_data	*data);
 void	rendering(t_mlx_data *data);
-void	map_check(t_mlx_data *data);void
-init_struct(t_mlx_data *data);
+void	map_check(t_mlx_data *data);
+void	init_struct(t_mlx_data *data);
+void	ff_path(t_mlx_data *data, int px, int py, char filler);
+char    **ft_copy(t_mlx_data *data);
 
 #endif

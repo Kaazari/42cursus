@@ -21,6 +21,9 @@ void	init_struct(t_mlx_data *data)
 	data->ccounter = 0;
 	data->px = 0;
 	data->py = 0;
+	data->ff_collect = 0;
+	data->ff_exit = 0;
+	data->copy = NULL;
 }
 
 int	what_if(t_mlx_data *data, int i, int j)
