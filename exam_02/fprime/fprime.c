@@ -5,20 +5,20 @@ int	main(int ac, char **av)
 {
 	if (ac == 2)
 	{
-		int x = atoi(av[1]);
-		if (x < 2)
+		int i = 2;
+		int num = atoi(av[1]);
+		if (num < 2)
 		{
 			printf("\n");
 			return (0);
 		}
-		int i = 2;
-		while (x > 1)
+		while (num > 1)
 		{
-			if (x % i == 0)
+			if (num % i == 0)
 			{
 				printf("%i", i);
-				x /= i;
-				if (x > 3)
+				num /= i;
+				if (num > 3)
 					printf("*");
 			}
 			else
