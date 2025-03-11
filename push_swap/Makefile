@@ -18,10 +18,9 @@ OBJ		=	$(SRC:.c=.o)
 
 LIBFT	=	./libft/libft.a
 
-CC		=	gcc
+CC		=	cc
 
-CFLAGS	=	-Wall -Wextra
-# -Werror
+CFLAGS	=	-Wall -Wextra -Werror
 
 RM		= 	rm -f
 

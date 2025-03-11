@@ -25,7 +25,7 @@ void	ft_parse(int ac, char **av, t_Node **a)
 	return ;
 }
 
-int	ft_atoi2(const char *str)
+long long int	ft_atoi2(const char *str)
 {
 	int				mod;
 	long long int	i;
@@ -45,21 +45,21 @@ int	ft_atoi2(const char *str)
 	while (*str)
 	{
 		if (!ft_isdigit(*str))
-			return (MAX_INT + 1);
+			return (i * 0 + MAX_INT + 1);
 		i = i * 10 + (*str - 48);
 		str++;
 	}
 	if ((mod * i) > MAX_INT || (mod * i) < MIN_INT)
-		return (MAX_INT + 1);
+		return (i * 0 + MAX_INT + 1);
 	return (mod * i);
 }
 
 // If ac == 2 (quoted).
 void	sub_process(char **av, t_Node **a)
 {
-	char	**tmp;
-	int		i;
-	int		j;
+	char				**tmp;
+	int					i;
+	long long int		j;
 
 	i = 0;
 	j = 0;
@@ -88,7 +88,6 @@ void	parsing(int ac, char **av, t_Node **a)
 {
 	int		i;
 	int		j;
-	int t = 0;
 
 	i = 1;
 	j = 0;
