@@ -45,12 +45,12 @@ int	ft_atoi2(const char *str)
 	while (*str)
 	{
 		if (!ft_isdigit(*str))
-			ft_error();
+			return (MAX_INT + 1);
 		i = i * 10 + (*str - 48);
 		str++;
 	}
-	if ((mod * i) > 2147483647 || (mod * i) < -2147483648)
-		ft_error();
+	if ((mod * i) > MAX_INT || (mod * i) < MIN_INT)
+		return (MAX_INT + 1);
 	return (mod * i);
 }
 
@@ -64,9 +64,18 @@ void	sub_process(char **av, t_Node **a)
 	i = 0;
 	j = 0;
 	tmp = ft_split(av[1], 32);
+	if (!tmp)
+		ft_error();
 	while (tmp[i])
 	{
 		j = ft_atoi2(tmp[i]);
+		if (j > MAX_INT || j < MIN_INT)
+		{
+			ft_freestr(tmp);
+			free(tmp);
+			free_all(a);
+			ft_error();
+		}
 		insert_end(a, j);
 		i++;
 	}
@@ -79,6 +88,7 @@ void	parsing(int ac, char **av, t_Node **a)
 {
 	int		i;
 	int		j;
+	int t = 0;
 
 	i = 1;
 	j = 0;

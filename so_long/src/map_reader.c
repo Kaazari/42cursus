@@ -53,13 +53,13 @@ char	**ft_copy(t_mlx_data *data)
 
 	i = 0;
 	j = 0;
-	copy = (char **)malloc(data->x * sizeof(char *));
+	copy = (char **)malloc(data->y * sizeof(char *));
 	if (copy == NULL)
 		return (NULL);
 	while (i < data->y)
 	{
 		j = 0;
-		copy[i] = (char *)malloc(data->y * sizeof(char));
+		copy[i] = (char *)malloc(data->x * sizeof(char));
 		if (copy[i] == NULL)
 			ft_exit(data);
 		while (j++ < data->x)

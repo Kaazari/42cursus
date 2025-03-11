@@ -8,11 +8,21 @@ void	xpm_data(t_mlx_data *data)
 	int	j;
 
 	data->player = mlx_xpm_file_to_image(data->mlx, "files/player.xpm", &i, &j);
+	if (!data->player)
+		ft_exit(data);
 	data->exit = mlx_xpm_file_to_image(data->mlx, "files/exit.xpm", &i, &j);
+	if (!data->exit)
+		ft_exit(data);
 	data->floor = mlx_xpm_file_to_image(data->mlx, "files/floor.xpm", &i, &j);
+	if (!data->floor)
+		ft_exit(data);
 	data->wall = mlx_xpm_file_to_image(data->mlx, "files/wall.xpm", &i, &j);
+	if (!data->wall)
+		ft_exit(data);
 	data->collectible = mlx_xpm_file_to_image(data->mlx,
 			"files/clt.xpm", &i, &j);
+	if (!data->collectible)
+		ft_exit(data);
 }
 
 int	fd_check(char *s1, char *s2)

@@ -1,5 +1,7 @@
 #ifndef PUSH_SWAP
 # define PUSH_SWAP
+# define MAX_INT 2147483647
+# define MIN_INT -2177483648
 
 # include <stdio.h>
 # include <unistd.h>
