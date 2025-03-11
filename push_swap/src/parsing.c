@@ -87,7 +87,7 @@ void	sub_process(char **av, t_Node **a)
 void	parsing(int ac, char **av, t_Node **a)
 {
 	int		i;
-	int		j;
+	long long int		j;
 
 	i = 1;
 	j = 0;
@@ -100,6 +100,11 @@ void	parsing(int ac, char **av, t_Node **a)
 		while (i < ac)
 		{
 			j = ft_atoi2(av[i]);
+			if (j > MAX_INT || j < MIN_INT)
+			{
+				free_all(a);
+				ft_error();
+			}
 			insert_end(a, j);
 			i++;
 		}
