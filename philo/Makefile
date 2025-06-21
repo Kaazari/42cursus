@@ -1,7 +1,7 @@
 ###############################################
 #	SOURCES
 
-SRC		= philo.c utils.c \
+SRC		=	main.c utils.c init.c actions.c monitor.c parsing.c output.c routine.c \
 
 OBJ		= $(SRC:.c=.o)
 

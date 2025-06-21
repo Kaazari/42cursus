@@ -1,53 +1,7 @@
-// #ifndef PHILO_H
-// # define PHILO_H
-// # define INT_MAX 2147483647
-// # define INT_MIN -2147483648
-
-// # include <unistd.h>
-// # include <stdlib.h>
-// # include <stdio.h>
-// # include <pthread.h>
-// # include <string.h>
-// # include <sys/time.h>
-
-// typedef struct s_data
-// {
-// 	int					philo_nb;
-// 	int					tt_eat;
-// 	int					tt_die;
-// 	int					tt_sleep;
-// 	int					nb_meals;
-// 	int					isdead;
-// 	long long			timestamp_og;
-// 	int					meal_ok;
-// 	int					printer_ok;
-// 	int					death_ok;
-// 	pthread_mutex_t		meal;
-// 	pthread_mutex_t		death;
-// 	pthread_mutex_t		fork[200];
-// 	pthread_mutex_t		printer;
-// }				t_data;
-
-// typedef struct s_philo
-// {
-// 	t_data				*data;
-// 	int					id;
-// 	int					meals;
-// 	int					l_fork;
-// 	int					r_fork;
-// 	int					finished;
-// 	long long			last_meal;
-// 	pthread_t			death_thread_id;
-// }				t_philo;
-
-// void	*t_routine();
-// void	create_threads(int nb, t_data *data);
-// void	struct_define(char **av);
-
-// #endif
-
 #ifndef PHILO_H
 # define PHILO_H
+# define INT_MIN -2147483648
+# define INT_MAX 2147483647
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -55,22 +9,20 @@
 # include <pthread.h>
 # include <sys/time.h>
 # include <string.h>
-# include <limits.h>
+
+typedef struct s_data	t_data;
 
 typedef struct s_philo
 {
 	int				id;
-	int eating;
-	pthread_t		thread_id;
-	pthread_t		death_thread;
-	pthread_t monitor_thread;
-	pthread_mutex_t	*right_fork;
-	pthread_mutex_t	left_fork;
-	pthread_mutex_t	meal_mutex;
-	long long		last_meal_time;
-	int	meals_eaten;
+	int				meals_eaten;
 	int				finished;
-	struct s_data	*data;
+	long long		last_meal_time;
+	pthread_t		death_thread;
+	pthread_mutex_t	left_fork;
+	pthread_mutex_t	*right_fork;
+	pthread_mutex_t	meal_mutex;
+	t_data			*data;
 }	t_philo;
 
 typedef struct s_data
@@ -80,44 +32,63 @@ typedef struct s_data
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				must_eat_count;
-	int eating_count;
+	int				dead;
+	int				finished_count;
 	long long		start_time;
+	t_philo			*philo;
+	pthread_t		*threads;
 	pthread_mutex_t	print_mutex;
 	pthread_mutex_t	death_mutex;
 	pthread_mutex_t	finish_mutex;
-	pthread_mutex_t eating_mutex;
-	int				finished_count;
-	int				someone_died;
-	pthread_t   monitor_thread;  // <- Ajouter cette ligne
-	pthread_t		*threads;
-	t_philo			*philos;
 }	t_data;
 
-// Time functions
+// utils.c
 long long	get_time(void);
-void		precise_usleep(long long time_ms);
-
-// Status and monitoring functions
-int			check_death(t_data *data, int set_death);
-void		write_status(char *str, t_philo *philo);
-void		*death_monitor(void *arg);
-
-// Utility functions
-int			ft_atoi_safe(const char *str);
 void		ft_putnbr_fd(long long n, int fd);
 void		ft_putstr_fd(char *s, int fd);
+int			parse_number(char *str, int *i);
+int			ft_atoi_safe(char *str);
+void		precise_usleep(long long time_ms);
+int			check_death(t_data *data, int set_death);
 
-// Philosopher routines
-void		*philo_routine(void *arg);
-void		eat_activity(t_philo *philo);
+// output.c
+void		print_status_message(t_philo *philo, char *str);
+void		write_status(char *str, t_philo *philo);
+void		print_death_message(t_philo *philo);
+
+// monitor.c
+int			check_philosopher_death(t_philo *philo);
+void		*death_monitor(void *arg);
+
+// actions.c
 void		sleep_think(t_philo *philo);
+void		get_fork_order(t_philo *philo, pthread_mutex_t **first,
+				pthread_mutex_t **second);
+void		handle_single_philosopher(t_philo *philo,
+				pthread_mutex_t *first_fork);
+void		eating_process(t_philo *philo);
+void		eat_activity(t_philo *philo);
 
-// Initialization and cleanup
+// routine.c
+void		handle_initial_delay(t_philo *philo);
+int			check_meals_completed(t_philo *philo);
+int			handle_philosopher_finished(t_philo *philo);
+void		*philo_routine(void *arg);
+
+// init.c
 int			init_mutexes(t_data *data);
 void		destroy_mutexes(t_data *data);
+void		init_philosopher_data(t_data *data, int i);
+void		assign_right_fork(t_data *data, int i);
 int			init_philosophers(t_data *data);
+
+// threads.c
 int			create_threads(t_data *data);
 int			wait_for_completion(t_data *data);
+
+// parsing.c
+int			validate_arguments(t_data *data);
+int			parse_optional_argument(int argc, char **argv, t_data *data);
 int			parse_arguments(int argc, char **argv, t_data *data);
 int			allocate_memory(t_data *data);
 void		cleanup(t_data *data);
