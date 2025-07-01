@@ -16,6 +16,8 @@ typedef struct s_data
 	char	*cmd1;
 	char	*cmd2;
 	char	*readed;
+	char	**split1;
+	char	**split2;
 }	t_data;
 
 #endif

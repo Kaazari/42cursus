@@ -5,7 +5,8 @@ SRC		=	pipex.c \
 
 OBJ		= $(SRC:.c=.o)
 
-CC		= cc
+# CC		= cc
+CC		= gcc
 
 CFLAGS	= -Wall -Wextra
 # -Werror
@@ -36,7 +37,7 @@ clean:
 
 fclean:		clean
 	$(RM) $(NAME)
-	$(RM) $(LIBFT)
+	@make fclean -C ./libft
 
 re:			fclean all
 
