@@ -1,12 +1,12 @@
 ###############################################
 #	SOURCES
 
-SRC		=	pipex.c \
+SRC		=	bonus.c \
 
 OBJ		= $(SRC:.c=.o)
 
-# CC		= cc
-CC		= gcc
+CC		= cc
+# CC		= gcc
 
 CFLAGS	= -Wall -Wextra
 # -Werror
