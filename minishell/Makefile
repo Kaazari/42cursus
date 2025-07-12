@@ -1,15 +1,13 @@
 ###############################################
 #	SOURCES
 
-SRC		= minishell.c builtin.c utils.c tokenize.c \
+SRC		= minishell.c builtin.c utils.c tokenize.c cleaner.c externals.c \
 
 OBJ		= $(SRC:.c=.o)
 
 CC		= cc
-# CC		= gcc
 
-CFLAGS	= -Wall -Wextra
-# -Werror
+CFLAGS	= -Wall -Wextra -Werror
 
 RLFLAGS	= -lreadline
 

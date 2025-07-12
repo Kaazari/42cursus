@@ -1,31 +1,70 @@
 #include "minishell.h"
 
-void execute_external_commands(char **args, char **envp)
+void	handle_redirection(t_cmd *cmd)
 {
-	pid_t pid = fork();
-	if (pid == 0) {
-		// Processus enfant
-		if (execve(args[0], args, envp) == -1) {
-			// Si execve échoue, essayer avec PATH
-			char *cmd_path = find_command_in_path(args[0]);
-			if (cmd_path) {
-				execve(cmd_path, args, envp);
-				free(cmd_path);
+	int	i;
+	int	fd;
+
+	i = 0;
+	while (i < cmd->redir_count)
+	{
+		printf("DEBUG: Processing redirection %d of type %d to file '%s'\n",
+			i, cmd->redirs[i].type, cmd->redirs[i].file);
+
+		if (cmd->redirs[i].type == REDIR_OUT || cmd->redirs[i].type == REDIR_APPEND)
+		{
+			int flags = O_WRONLY | O_CREAT;
+			if (cmd->redirs[i].type == REDIR_APPEND)
+				flags |= O_APPEND;
+			else
+				flags |= O_TRUNC;
+			fd = open(cmd->redirs[i].file, flags, 0644);
+			printf("DEBUG: Opened output file with fd %d\n", fd);
+			if (fd != -1)
+			{
+				cmd->redirs[i].fd = dup(STDOUT_FILENO);
+				printf("DEBUG: Saved stdout (fd %d) and redirecting to fd %d\n",
+					cmd->redirs[i].fd, fd);
+				dup2(fd, STDOUT_FILENO);
+				close(fd);
 			}
-			perror(args[0]); // Affiche l'erreur
-			exit(127); // Code d'erreur standard
+			else
+				perror("open");
 		}
-	} else if (pid > 0) {
-		// Processus parent
-		wait(NULL); // Attendre que l'enfant se termine
-	} else {
-		perror("fork");
+		else if (cmd->redirs[i].type == REDIR_IN)
+		{
+			fd = open(cmd->redirs[i].file, O_RDONLY);
+			if (fd != -1)
+			{
+				cmd->redirs[i].fd = dup(STDIN_FILENO);
+				dup2(fd, STDIN_FILENO);
+				close(fd);
+			}
+		}
+		i++;
 	}
 }
 
-void execute_command(char **args, t_shell *shell) {
-	if (!args || !args[0])
-		return ;
+void	restore_redirections(t_cmd *cmd)
+{
+	int	i;
+
+	i = 0;
+	while (i < cmd->redir_count)
+	{
+		if (cmd->redirs[i].type == REDIR_OUT || cmd->redirs[i].type == REDIR_APPEND)
+			dup2(cmd->redirs[i].fd, STDOUT_FILENO);
+		else if (cmd->redirs[i].type == REDIR_IN)
+			dup2(cmd->redirs[i].fd, STDIN_FILENO);
+		close(cmd->redirs[i].fd);
+		free(cmd->redirs[i].file);
+		i++;
+	}
+	cmd->redir_count = 0;
+}
+
+static void execute_builtin_command(char **args, t_shell *shell)
+{
 	if (strcmp(args[0], "cd") == 0)
 		builtin_cd(args);
 	else if (strcmp(args[0], "pwd") == 0)
@@ -44,31 +83,66 @@ void execute_command(char **args, t_shell *shell) {
 		execute_external_commands(args, shell->envp);
 }
 
-int main(int ac, char **av, char **envp) {
+void execute_command(char **args, t_shell *shell)
+{
+	t_cmd *cmd;
+
+	if (!args || !args[0])
+		return;
+
+	printf("DEBUG: Starting command execution\n");
+	cmd = shell->cmd;  // Utiliser la structure cmd existante
+
+	handle_redirection(cmd);
+	execute_builtin_command(args, shell);
+	restore_redirections(cmd);
+}
+
+static void init_shell(t_shell *shell, char **envp)
+{
+	shell->envp = envp;
+}
+
+static int process_empty_input(char *input)
+{
+	if (strlen(input) == 0)
+	{
+		free(input);
+		return (1);
+	}
+	return (0);
+}
+
+static void process_command(t_shell *shell, char *input)
+{
+	shell->cmd = tokenize_input(input);
+	if (shell->cmd)
+	{
+		execute_command(shell->cmd->args, shell);
+		free_cmd(shell->cmd);
+	}
+}
+
+int main(int ac, char **av, char **envp)
+{
 	(void)ac;
 	(void)av;
 	t_shell shell;
-	shell.envp = envp;
 	char *input;
 
+	init_shell(&shell, envp);
 	while (1)
 	{
 		input = readline("minishell> ");
-		if (!input) {
+		if (!input)
+		{
 			printf("exit\n");
 			break;
 		}
-		if (strlen(input) == 0) {
-			free(input);
+		add_history(input);
+		if (process_empty_input(input))
 			continue;
-		}
-
-		// Tokenisation améliorée
-		shell.args = tokenize_input(input);
-		if (shell.args) {
-			execute_command(shell.args, &shell);
-			free_args(shell.args); // Libérer la mémoire
-		}
+		process_command(&shell, input);
 		free(input);
 	}
 	return (0);
