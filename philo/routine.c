@@ -1,10 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   routine.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zdjitte <zdjitte@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/18 20:26:04 by zdjitte           #+#    #+#             */
+/*   Updated: 2025/07/18 20:26:05 by zdjitte          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 void	handle_initial_delay(t_philo *philo)
 {
-	if (philo->data->philo_count > 100)
-		usleep((philo->id % 20) * 100);
-	else if (philo->id % 2 == 0)
+	if (philo->id % 2 == 0)
 		precise_usleep(philo->data->time_to_eat / 10);
 }
 
@@ -43,7 +53,7 @@ void	*philo_routine(void *arg)
 		pthread_create(&philo->death_thread, NULL, death_monitor, arg);
 		eat_activity(philo);
 		pthread_detach(philo->death_thread);
-		if (check_meals_completed(philo))
+		if (check_meals_completed(philo) || philo->data->philo_count == 1)
 		{
 			if (handle_philosopher_finished(philo))
 				return (NULL);

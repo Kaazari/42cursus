@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zdjitte <zdjitte@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/18 20:26:36 by zdjitte           #+#    #+#             */
+/*   Updated: 2025/07/18 20:26:37 by zdjitte          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 # define PHILO_H
 # define INT_MIN -2147483648
@@ -64,8 +76,7 @@ void		*death_monitor(void *arg);
 void		sleep_think(t_philo *philo);
 void		get_fork_order(t_philo *philo, pthread_mutex_t **first,
 				pthread_mutex_t **second);
-void		handle_single_philosopher(t_philo *philo,
-				pthread_mutex_t *first_fork);
+void		handle_single_philosopher(t_philo *philo);
 void		eating_process(t_philo *philo);
 void		eat_activity(t_philo *philo);
 

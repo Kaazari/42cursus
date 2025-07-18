@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: zdjitte <zdjitte@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/18 20:25:48 by zdjitte           #+#    #+#             */
+/*   Updated: 2025/07/18 20:45:37 by zdjitte          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "philo.h"
 
 int	init_mutexes(t_data *data)
@@ -45,8 +57,6 @@ void	init_philosopher_data(t_data *data, int i)
 
 void	assign_right_fork(t_data *data, int i)
 {
-	if (data->philo_count == 1)
-		return ;
 	if (i == data->philo_count - 1)
 		data->philo[i].right_fork = &data->philo[0].left_fork;
 	else
