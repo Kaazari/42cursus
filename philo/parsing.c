@@ -62,12 +62,6 @@ int	allocate_memory(t_data *data)
 	data->philo = malloc(sizeof(t_philo) * data->philo_count);
 	if (!data->philo)
 		return (1);
-	data->threads = malloc(sizeof(pthread_t) * data->philo_count);
-	if (!data->threads)
-	{
-		free(data->philo);
-		return (1);
-	}
 	return (0);
 }
 
@@ -75,6 +69,4 @@ void	cleanup(t_data *data)
 {
 	if (data->philo)
 		free(data->philo);
-	if (data->threads)
-		free(data->threads);
 }

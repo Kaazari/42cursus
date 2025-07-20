@@ -12,7 +12,7 @@
 
 #include "philo.h"
 
-void	ft_putnbr_fd(long long n, int fd)
+void	ft_putnbr_fd(long int n, int fd)
 {
 	char	c;
 
@@ -65,14 +65,36 @@ int	ft_atoi_safe(char *str)
 	return (result);
 }
 
+long int	get_time(void)
+{
+	long int		time;
+	struct timeval	current_time;
+
+	time = 0;
+	if (gettimeofday(&current_time, NULL) == -1)
+		return (-1);
+	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
+	return (time);
+}
+
+void	ft_usleep(long int time_ms)
+{
+	long int	start_time;
+
+	start_time = 0;
+	start_time = get_time();
+	while ((get_time() - start_time) < time_ms)
+		usleep(time_ms / 10);
+}
+
 int	check_death(t_data *data, int set_death)
 {
 	int	status;
 
 	pthread_mutex_lock(&data->death_mutex);
 	if (set_death)
-		data->dead = set_death;
-	status = data->dead;
+		data->stop = set_death;
+	status = data->stop;
 	pthread_mutex_unlock(&data->death_mutex);
 	return (status);
 }
