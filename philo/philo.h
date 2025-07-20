@@ -58,8 +58,6 @@ typedef struct s_data
 long int	get_time(void);
 void		ft_putnbr_fd(long int n, int fd);
 void		ft_putstr_fd(char *s, int fd);
-int			parse_number(char *str, int *i);
-int			ft_atoi_safe(char *str);
 void		ft_usleep(long int time_ms);
 int			check_death(t_data *data, int set_death);
 
@@ -72,19 +70,25 @@ void		*death_monitor(void *arg);
 // actions.c
 void		sleep_think(t_philo *philo);
 void		handle_single_philosopher(t_philo *philo);
+void		take_forks_and_eat(t_philo *philo);
 void		eat_activity(t_philo *philo);
 
 // routine.c
+int			check_meals_completed(t_philo *philo);
 void		*philo_routine(void *arg);
 
 // init.c
+int			allocate_memory(t_data *data);
+void		cleanup(t_data *data);
 int			init_mutexes(t_data *data);
 void		destroy_mutexes(t_data *data);
 int			init_philosophers(t_data *data);
 
 // parsing.c
+int			parse_number(char *str, int *i);
+int			ft_atoi_safe(char *str);
+int			validate_arguments(t_data *data);
+int			parse_optional_argument(int argc, char **argv, t_data *data);
 int			parse_arguments(int argc, char **argv, t_data *data);
-int			allocate_memory(t_data *data);
-void		cleanup(t_data *data);
 
 #endif

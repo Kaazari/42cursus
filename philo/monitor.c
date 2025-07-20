@@ -21,7 +21,8 @@ void	*death_monitor(void *arg)
 	pthread_mutex_lock(&philo->data->time_eat_mutex);
 	pthread_mutex_lock(&philo->data->finish_mutex);
 	if (!check_death(philo->data, 0) && !philo->finished
-		&& ((get_time() - philo->last_meal_time) >= (long)philo->data->time_to_die))
+		&& ((get_time() - philo->last_meal_time)
+			>= (long)philo->data->time_to_die))
 	{
 		pthread_mutex_unlock(&philo->data->time_eat_mutex);
 		pthread_mutex_unlock(&philo->data->finish_mutex);

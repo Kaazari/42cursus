@@ -20,6 +20,6 @@ void	write_status(char *str, t_philo *philo)
 	if (time >= 0 && time <= 2147483647 && !check_death(philo->data, 0))
 	{
 		printf("%ld ", time);
-		printf("Philo %d %s", philo->id, str);
+		printf("%d %s", philo->id, str);
 	}
 }

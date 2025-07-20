@@ -12,6 +12,43 @@
 
 #include "philo.h"
 
+int	parse_number(char *str, int *i)
+{
+	long long	result;
+
+	result = 0;
+	if (str[*i] < '0' || str[*i] > '9')
+		return (-1);
+	while (str[*i] >= '0' && str[*i] <= '9')
+	{
+		result = result * 10 + (str[*i] - '0');
+		if (result > INT_MAX)
+			return (-1);
+		(*i)++;
+	}
+	return ((int)result);
+}
+
+int	ft_atoi_safe(char *str)
+{
+	int	i;
+	int	result;
+
+	i = 0;
+	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			return (-1);
+		i++;
+	}
+	result = parse_number(str, &i);
+	if (result == -1 || str[i] != '\0')
+		return (-1);
+	return (result);
+}
+
 int	validate_arguments(t_data *data)
 {
 	if (data->philo_count <= 0 || data->time_to_die <= 0
@@ -55,18 +92,4 @@ int	parse_arguments(int argc, char **argv, t_data *data)
 	if (validate_arguments(data))
 		return (1);
 	return (parse_optional_argument(argc, argv, data));
-}
-
-int	allocate_memory(t_data *data)
-{
-	data->philo = malloc(sizeof(t_philo) * data->philo_count);
-	if (!data->philo)
-		return (1);
-	return (0);
-}
-
-void	cleanup(t_data *data)
-{
-	if (data->philo)
-		free(data->philo);
 }

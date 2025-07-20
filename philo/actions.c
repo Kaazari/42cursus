@@ -33,13 +33,8 @@ void	handle_single_philosopher(t_philo *philo)
 	pthread_mutex_unlock(&philo->left_fork);
 }
 
-void	eat_activity(t_philo *philo)
+void	take_forks_and_eat(t_philo *philo)
 {
-	if (philo->data->philo_count == 1)
-	{
-		handle_single_philosopher(philo);
-		return ;
-	}
 	pthread_mutex_lock(&philo->left_fork);
 	pthread_mutex_lock(&philo->data->print_mutex);
 	write_status("has taken a fork\n", philo);
@@ -63,5 +58,15 @@ void	eat_activity(t_philo *philo)
 	ft_usleep(philo->data->time_to_eat);
 	pthread_mutex_unlock(philo->right_fork);
 	pthread_mutex_unlock(&philo->left_fork);
+}
+
+void	eat_activity(t_philo *philo)
+{
+	if (philo->data->philo_count == 1)
+	{
+		handle_single_philosopher(philo);
+		return ;
+	}
+	take_forks_and_eat(philo);
 	sleep_think(philo);
 }

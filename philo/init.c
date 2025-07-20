@@ -12,6 +12,20 @@
 
 #include "philo.h"
 
+int	allocate_memory(t_data *data)
+{
+	data->philo = malloc(sizeof(t_philo) * data->philo_count);
+	if (!data->philo)
+		return (1);
+	return (0);
+}
+
+void	cleanup(t_data *data)
+{
+	if (data->philo)
+		free(data->philo);
+}
+
 int	init_mutexes(t_data *data)
 {
 	int	i;
@@ -51,19 +65,19 @@ int	init_philosophers(t_data *data)
 
 	i = 0;
 	while (i < data->philo_count)
-{
-	data->philo[i].id = i + 1;
-	data->philo[i].last_meal_time = data->start_time;
-	data->philo[i].meals_eaten = 0;
-	data->philo[i].finished = 0;
-	data->philo[i].data = data;
-	data->philo[i].right_fork = NULL;
+	{
+		data->philo[i].id = i + 1;
+		data->philo[i].last_meal_time = data->start_time;
+		data->philo[i].meals_eaten = 0;
+		data->philo[i].finished = 0;
+		data->philo[i].data = data;
+		data->philo[i].right_fork = NULL;
 		if (data->philo_count == 1)
 			return (0);
-	if (i == data->philo_count - 1)
-		data->philo[i].right_fork = &data->philo[0].left_fork;
-	else
-		data->philo[i].right_fork = &data->philo[i + 1].left_fork;
+		if (i == data->philo_count - 1)
+			data->philo[i].right_fork = &data->philo[0].left_fork;
+		else
+			data->philo[i].right_fork = &data->philo[i + 1].left_fork;
 		i++;
 	}
 	return (0);

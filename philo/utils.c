@@ -28,43 +28,6 @@ void	ft_putstr_fd(char *s, int fd)
 		write(fd, s++, 1);
 }
 
-int	parse_number(char *str, int *i)
-{
-	long long	result;
-
-	result = 0;
-	if (str[*i] < '0' || str[*i] > '9')
-		return (-1);
-	while (str[*i] >= '0' && str[*i] <= '9')
-	{
-		result = result * 10 + (str[*i] - '0');
-		if (result > INT_MAX)
-			return (-1);
-		(*i)++;
-	}
-	return ((int)result);
-}
-
-int	ft_atoi_safe(char *str)
-{
-	int	i;
-	int	result;
-
-	i = 0;
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-	{
-		if (str[i] == '-')
-			return (-1);
-		i++;
-	}
-	result = parse_number(str, &i);
-	if (result == -1 || str[i] != '\0')
-		return (-1);
-	return (result);
-}
-
 long int	get_time(void)
 {
 	long int		time;
