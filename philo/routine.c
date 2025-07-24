@@ -40,13 +40,17 @@ void	*philo_routine(void *arg)
 	philo = (t_philo *)arg;
 	if (philo->id % 2 == 0)
 		ft_usleep(philo->data->time_to_eat / 10);
+	if (pthread_create(&death_thread, NULL, death_monitor, philo) != 0)
+		return (NULL);
 	while (!check_death(philo->data, 0))
 	{
-		pthread_create(&death_thread, NULL, death_monitor, philo);
 		eat_activity(philo);
-		pthread_detach(death_thread);
 		if (check_meals_completed(philo))
+		{
+			pthread_join(death_thread, NULL);
 			return (NULL);
+		}
 	}
+	pthread_join(death_thread, NULL);
 	return (NULL);
 }

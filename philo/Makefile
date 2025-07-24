@@ -7,11 +7,9 @@ OBJ		= $(SRC:.c=.o)
 
 CC		= cc
 
-CFLAGS	= -Wall -Wextra
-# -Werror
+CFLAGS	= -Wall -Wextra -Werror
 
-TFLAGS	= -pthread
-# -Fsanitize=thread -g
+TFLAGS	= -g3 -pthread -fsanitize=thread
 
 RM		= rm -f
 
@@ -21,12 +19,12 @@ NAME	= philo
 #	MAKE
 
 %.o:	%.c
-	@$(CC) $(CFLAGS) $(TFLAGS) -c $< -o $@ -g3
+	@$(CC) $(CFLAGS) $(TFLAGS) -c $< -o $@
 
 all:	$(NAME)
 
 $(NAME):	$(OBJ)
-	@$(CC) $(OBJ) -o $(NAME)
+	@$(CC) $(OBJ) $(TFLAGS) -o $(NAME)
 
 clean:
 	$(RM) $(OBJ)

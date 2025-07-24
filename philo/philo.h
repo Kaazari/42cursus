@@ -61,6 +61,13 @@ void		ft_putstr_fd(char *s, int fd);
 void		ft_usleep(long int time_ms);
 int			check_death(t_data *data, int set_death);
 
+// forks.c
+void		determine_fork_order(t_philo *philo, pthread_mutex_t **first,
+				pthread_mutex_t **second);
+void		take_first_fork(t_philo *philo, pthread_mutex_t *first_fork);
+void		take_second_fork(t_philo *philo, pthread_mutex_t *second_fork);
+void		eat_and_update_time(t_philo *philo);
+
 // output.c
 void		write_status(char *str, t_philo *philo);
 

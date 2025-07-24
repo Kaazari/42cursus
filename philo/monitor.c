@@ -24,14 +24,15 @@ void	*death_monitor(void *arg)
 		&& ((get_time() - philo->last_meal_time)
 			>= (long)philo->data->time_to_die))
 	{
-		pthread_mutex_unlock(&philo->data->time_eat_mutex);
 		pthread_mutex_unlock(&philo->data->finish_mutex);
+		pthread_mutex_unlock(&philo->data->time_eat_mutex);
 		pthread_mutex_lock(&philo->data->print_mutex);
 		write_status("died\n", philo);
 		pthread_mutex_unlock(&philo->data->print_mutex);
 		check_death(philo->data, 1);
+		return (NULL);
 	}
-	pthread_mutex_unlock(&philo->data->time_eat_mutex);
 	pthread_mutex_unlock(&philo->data->finish_mutex);
+	pthread_mutex_unlock(&philo->data->time_eat_mutex);
 	return (NULL);
 }

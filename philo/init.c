@@ -47,14 +47,20 @@ void	destroy_mutexes(t_data *data)
 {
 	int	i;
 
-	pthread_mutex_destroy(&data->print_mutex);
-	pthread_mutex_destroy(&data->death_mutex);
-	pthread_mutex_destroy(&data->finish_mutex);
-	pthread_mutex_destroy(&data->time_eat_mutex);
+	ft_usleep(100);
+	if (pthread_mutex_destroy(&data->print_mutex) != 0)
+		write(2, "Error: failed to destroy print_mutex\n", 35);
+	if (pthread_mutex_destroy(&data->death_mutex) != 0)
+		write(2, "Error: failed to destroy death_mutex\n", 35);
+	if (pthread_mutex_destroy(&data->finish_mutex) != 0)
+		write(2, "Error: failed to destroy finish_mutex\n", 36);
+	if (pthread_mutex_destroy(&data->time_eat_mutex) != 0)
+		write(2, "Error: failed to destroy time_eat_mutex\n", 38);
 	i = 0;
 	while (i < data->philo_count)
 	{
-		pthread_mutex_destroy(&data->philo[i].left_fork);
+		if (pthread_mutex_destroy(&data->philo[i].left_fork) != 0)
+			write(2, "Error: failed to destroy fork mutex\n", 34);
 		i++;
 	}
 }
