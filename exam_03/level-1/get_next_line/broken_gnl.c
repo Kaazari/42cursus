@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <stdio.h>
 
 #ifndef BUFFER_SIZE
 # define BUFFER_SIZE 42
@@ -56,9 +57,9 @@ char	*get_next_line(int fd)
 
 // #include <fcntl.h>
 // int main(){
-//	 int fd = open("file.txt", O_RDWR);
-//	 printf("%s", get_next_line(fd));
-//	 printf("%s", get_next_line(fd));
-//	 printf("%s", get_next_line(fd));
-//	 printf("%s", get_next_line(fd));
+// 	 int fd = open("file.txt", O_RDWR);
+// 	 printf("%s", get_next_line(fd));
+// 	 printf("%s", get_next_line(fd));
+// 	 printf("%s", get_next_line(fd));
+// 	 printf("%s", get_next_line(fd));
 // }

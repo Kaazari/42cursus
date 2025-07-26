@@ -4,107 +4,86 @@
 
 int match_space(FILE *f)
 {
+	printf("match_space used\n");
 	int c;
-	int found = 0;
-
-	while ((c = fgetc(f)) != EOF && isspace(c))
-	{
-		found = 1;
-	}
-	if (c != EOF)
-		ungetc(c, f);
-	if (found)
-		return (1);
+	while (isspace(c = fgetc(f)))
+		;
+	if (c == EOF)
+		return (-1);
 	else
-	 	return (-1);
+	{
+		ungetc(c, f);
+		return (1);
+	}
+	return (0);
 }
 
 int match_char(FILE *f, char c)
 {
-	int actual = fgetc(f);
-	if (c == actual)
+	printf("match_char used\n");
+	int r = fgetc(f);
+	if (r == c)
 		return (1);
-	else
-	{
-		if (actual != EOF)
-			ungetc(actual, f);
+	else if (r == EOF)
 		return (-1);
-	}
+	return (0);
 }
 
 int scan_char(FILE *f, va_list ap)
 {
-	char *ptr = va_arg(ap, char *);
+	printf("scan_char used\n");
 	int c = fgetc(f);
 	if (c == EOF)
 		return (-1);
-	*ptr = c;
+	c = va_arg(ap, int);
 	return (1);
 }
 
 int scan_int(FILE *f, va_list ap)
 {
-	int *ptr = va_arg(ap, int *);
-	int val = 0;
-	int sign = 1;
+	printf("scan_int used\n");
 	int c;
-	int digits_read = 0;
-
-	// Ignorer les espaces
-	while ((c = fgetc(f)) != EOF && isspace(c))
-		;
-
-	// Gérer le signe
-	if (c == '-') {
+	int num = 1;
+	int sign = 1;
+	if ((c = fgetc(f)) == '-')
 		sign = -1;
-		c = fgetc(f);
-	} else if (c == '+') {
-		c = fgetc(f);
-	}
-
-	// Lire les chiffres
-	while (c != EOF && isdigit(c))
-	{
-		val = val * 10 + (c - '0');
-		c = fgetc(f);
-		digits_read = 1;  // Au moins un chiffre lu
-	}
-
-	if (!digits_read) {
-		if (c != EOF)
-			ungetc(c, f);
-		return -1;  // Aucun chiffre lu = échec
-	}
-
-	if (c != EOF)
-		ungetc(c, f);
-	*ptr = val * sign;
-    return (1);
+	else if ((c = fgetc(f)) == '+')
+		sign = 1;
+	if (c == EOF)
+		return (-1);
+	ungetc(c, f);
+	while (isdigit(c = fgetc(f)) && c != EOF)
+		num = num * 10 + c;
+	ungetc(c, f);
+	num = num * sign;
+	num = va_arg(ap, int);
+	return (1);
 }
 
 int scan_string(FILE *f, va_list ap)
 {
-	char *ptr = va_arg(ap, char *);
-	int c;
+	printf("scan_string used\n");
+	int c = fgetc(f);
+	char *s;
 	int i = 0;
-
-	while ((c = fgetc(f)) != EOF && !isspace(c))
+	if (c == EOF)
+		return(-1);
+	ungetc(c, f);
+	s = va_arg(ap, char *);
+	while (!isspace(c = fgetc(f)) && c != EOF)
 	{
-		ptr[i++] = c;
+		s[i] = c;
+		i++;
 	}
-
-	if (i == 0) {
-		if (c != EOF)
-			ungetc(c, f);
-		ptr[0] = '\0';
-		return -1;  // Aucun caractère lu = échec
-	}
-
-	if (c != EOF)
-		ungetc(c, f);
-	ptr[i] = '\0';  // Terminer la chaîne
-    return (1);
+	s[i] = '\0';
+	if (i == 0)
+		return (0);
+	if (c == EOF)
+		return(-1);
+	ungetc(c, f);
+	return (1);
 }
+
 
 
 int	match_conv(FILE *f, const char **format, va_list ap)
@@ -176,6 +155,7 @@ int main(int argc, char **argv)
 	char name[100];
 	char initial;
 	ft_scanf("%d %s %c", &age, name, &initial);
+	// scanf("%d %s %c", &age, name, &initial);
 	printf("Age: %d\n", age);
 	printf("Name: %s\n", name);
 	printf("Initial: %c\n", initial);
