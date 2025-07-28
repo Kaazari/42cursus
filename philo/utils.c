@@ -56,8 +56,12 @@ int	check_death(t_data *data, int set_death)
 
 	pthread_mutex_lock(&data->death_mutex);
 	if (set_death)
+	{
+		status = data->stop;
 		data->stop = set_death;
-	status = data->stop;
+	}
+	else
+		status = data->stop;
 	pthread_mutex_unlock(&data->death_mutex);
 	return (status);
 }

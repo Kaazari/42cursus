@@ -1,77 +1,65 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <unistd.h>
-#include <string.h>
+#include <stdlib.h>
 
-void	replace_c(char c, char *s)
-{
-		int i = 0;
-	while (s[i])
-	{
-		if (s[i] == c)
-			printf("*");
-		else
-			printf("%c", s[i]);
-		i++;
-	}
-}
-
-void	replace_str(char *str, char *s)
+int ft_strlen(char *s)
 {
 	int i = 0;
-	if (str[i + 1] == '\0')
+	while (s[i])
+		i++;
+	return (i);
+}
+
+void	filter(char *del)
+{
+	int i = 0;
+	int j = 0;
+	int mark = 0;
+	char buf[4096];
+	int readed = 0;
+	readed = read(0, buf, sizeof(buf) - 1);
+	if (readed <= 0)
 	{
-		replace_c(str[i], s);
+		perror("Error: ");
 		return ;
 	}
-	int j;
-	while (s[i])
+	buf[readed] = '\0';
+	int len = ft_strlen(del);
+	while (buf[i])
 	{
 		j = 0;
-		while ((str[j] && s[i]) && s[i] == str[j])
+		mark = i;
+		if (buf[i] == del[j])
 		{
-			i++;
-			j++;
-		}
-		if (str[j] == '\0')
-		{
-			while (j > 0)
+			while ((buf[i] == del[j]) && buf[i] && del[j])
 			{
-				printf("*");
-				j--;
+				i++;
+				j++;
 			}
-			i = i - 1; // Reculer d'un caractère car on va incrémenter après
+			if (len == j)
+			{
+				j = 0;
+				while (j++ < len)
+					printf("*");
+				i--;
+			}
+			else
+			{
+				i = mark;
+				printf("%c", buf[i]);
+			}
 		}
 		else
-		{
-			i = i - j;
-			printf("%c", s[i]);
-		}
+			printf("%c", buf[i]);
 		i++;
 	}
-	// printf("\n");	
 }
 
 int	main(int ac, char **av)
 {
-	int i = 0;
-
 	if (ac == 2)
 	{
 		while (1)
-		{
-			char *s = malloc(1024);
-			if (!s)
-				return (1);
-			int bytes = read(STDIN_FILENO, s, 1023);
-			if (bytes <= 0)
-				return (1);
-			s[bytes] = '\0';
-			replace_str(av[1], s);
-			free(s);
-			bytes = 0;
-		}
-		return (0);
+			filter(av[1]);
 	}
-	return (1);
 }

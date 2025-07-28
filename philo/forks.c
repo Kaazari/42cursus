@@ -30,6 +30,8 @@ void	determine_fork_order(t_philo *philo, pthread_mutex_t **first,
 void	take_first_fork(t_philo *philo, pthread_mutex_t *first_fork)
 {
 	pthread_mutex_lock(first_fork);
+	if (check_death(philo->data, 0))
+		return ;
 	pthread_mutex_lock(&philo->data->print_mutex);
 	write_status("has taken a fork\n", philo);
 	pthread_mutex_unlock(&philo->data->print_mutex);
@@ -38,6 +40,8 @@ void	take_first_fork(t_philo *philo, pthread_mutex_t *first_fork)
 void	take_second_fork(t_philo *philo, pthread_mutex_t *second_fork)
 {
 	pthread_mutex_lock(second_fork);
+	if (check_death(philo->data, 0))
+		return ;
 	pthread_mutex_lock(&philo->data->print_mutex);
 	write_status("has taken a fork\n", philo);
 	pthread_mutex_unlock(&philo->data->print_mutex);
@@ -45,6 +49,8 @@ void	take_second_fork(t_philo *philo, pthread_mutex_t *second_fork)
 
 void	eat_and_update_time(t_philo *philo)
 {
+	if (check_death(philo->data, 0))
+		return ;
 	pthread_mutex_lock(&philo->data->print_mutex);
 	write_status("is eating\n", philo);
 	pthread_mutex_lock(&philo->data->time_eat_mutex);

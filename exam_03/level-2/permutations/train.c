@@ -1,48 +1,41 @@
-#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
+#include <string.h>
 
-void	sort(char *s)
+char solution[100];
+char used[100];
+
+int	ft_strlen(char *s)
 {
 	int i = 0;
-	int j;
-	char	tmp;
 	while (s[i])
-	{
-		j = i + 1;
-		while (s[j])
-		{
-			if (s[i] > s[j])
-			{
-				tmp = s[j];
-				s[j] = s[i];
-				s[i] = tmp;
-			}
-			j++;
-		}
 		i++;
-	}
+	return (i);
 }
 
-void	permute(int start, char *s, int len, char *solution, int *used)
+void	solve(int lenght, char *s, int start, char *solution, char *used)
 {
 	int i;
-	if (start == len)
+	if (start == lenght)
 	{
 		puts(solution);
+		return ;
 	}
 	i = 0;
-	while (s[i])
+	int tmp;
+	while (i < lenght)
 	{
 		if (!used[i])
 		{
-			solution[start] = s[i];
 			used[i] = 1;
-			permute(start + 1, s, len, solution, used);
+			solution[start] = s[i];
+			solve(lenght, s, start + 1, solution, used);
 			used[i] = 0;
 		}
 		i++;
 	}
+	return ;
 }
 
 int main(int ac, char **av)
@@ -50,16 +43,8 @@ int main(int ac, char **av)
 	if (ac == 2)
 	{
 		char *s = av[1];
-		int i = 0;
-		while (s[i])
-			i++;
-		char *solution = malloc(i + 1);
-		int *used = calloc(i, sizeof(int));
-		solution[i] = '\0';
-		sort(s);
-		permute(0, s, i, solution, used);
-		free(solution);
-		free(used);
+		int len = ft_strlen(s);
+		solve(len, s, 0, solution, used);
 	}
 	return (0);
 }

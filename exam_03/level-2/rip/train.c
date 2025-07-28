@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-void	calculate_removals(char *s, int *excess_open, int *excess_close)
+int	calculate_removals(char *s, int *excess_open, int *excess_close)
 {
 	int balance = 0;
 	int close_excess = 0;

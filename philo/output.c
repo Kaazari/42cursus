@@ -17,9 +17,10 @@ void	write_status(char *str, t_philo *philo)
 	long int	time;
 
 	time = get_time() - philo->data->start_time;
-	if (time >= 0 && time <= 2147483647 && !check_death(philo->data, 0))
+	if (time >= 0 && time <= 2147483647
+		&& (strcmp(str, "died\n") == 0 || !check_death(philo->data, 0)))
 	{
-		printf("%ld ", time);
-		printf("%d %s", philo->id, str);
+		printf("%ld %d %s", time, philo->id, str);
+		fflush(stdout);
 	}
 }

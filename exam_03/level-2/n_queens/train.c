@@ -1,63 +1,68 @@
-#include <stdlib.h>
 #include <stdio.h>
+#include <unistd.h>
+#include <stdlib.h>
 
-static int queen[20];			// queen[column] = line where queen is
+// Allowed functions : atoi, fprintf, write
 
-void	print_solutions(int *queen, int n)
+int board[20];
+
+void	print_result(int total)
 {
 	int i = 0;
-	while (i < n)
+	while (i < total)
 	{
-		fprintf(stdout, "%d", queen[i]);
-		fprintf(stdout, " ");
+		fprintf(stdout, "%i", board[i]);
+		if (i + 1 < total)
+			fprintf(stdout, " ");
 		i++;
 	}
 	fprintf(stdout, "\n");
+	return ;
 }
 
-int is_safe(int *queen, int column, int row)
+int	is_safe(int row, int column)
 {
 	int i = 0;
+
 	while (i < column)
 	{
-		if (queen[i] == row || queen[i] - i == row - column || queen[i] + i == row + column)		// va check si la pos de la queen est sur la meme ligne, ainsi que sur les deux diagonales
-			return (0);																				// si c'est le cas, c'est pas safe
+		if (board[i] - i == row - column || board[i] + i == row + column || board[i] == row)
+		{
+			// printf("%i, %i, %i, %i\n", board[i], i, row, column);
+			return (0);
+		}
 		i++;
 	}
-	return (1);																						// safe
+	return (1);
 }
 
-void	solve(int column, int n, int *queen)
+void	solve(int start, int end)
 {
-	int row;
-	if (column == n)
+	int i;
+	if (start == end)
 	{
-		print_solutions(queen, n);				// une solution found, on l'imprime, et on continue (return) pour que la recursivite s'occupe des autres solutions potentielles
+		print_result(end);
 		return ;
 	}
-	row = 0;
-	while (row < n)				// traverse toutes les lignes
+	i = 0;
+	while (i < end)
 	{
-		if (is_safe(queen, column, row))		// si la position ou on tente de poser la queen est safe
+		if (is_safe(i, start))
 		{
-			queen[column] = row;				// alors on met une queen en column x sera a ligne y
-			solve(column + 1, n, queen);		// on cherche des solutions pour les autres columns
+			board[start] = i;
+			solve(start + 1, end);
+			// board[start] = 0;
 		}
-		row++;
+		i++;
 	}
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	if (ac == 2)
 	{
-		int n = atoi(av[1]);	// total number of queens to place
-		if (n <= 2)
-		{
-			fprintf(stdout, "\n");
-			return (0);
-		}
-		solve(0, n, queen);		// start column 0 and do it i times
+		int i = atoi(av[1]);
+		solve(0, i);
 	}
 	return (0);
 }

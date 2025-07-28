@@ -50,6 +50,8 @@ void	*philo_routine(void *arg)
 			pthread_join(death_thread, NULL);
 			return (NULL);
 		}
+		if (check_death(philo->data, 0))
+			break ;
 	}
 	pthread_join(death_thread, NULL);
 	return (NULL);

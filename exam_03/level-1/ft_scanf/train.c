@@ -33,42 +33,48 @@ int scan_char(FILE *f, va_list ap)
 {
 	printf("scan_char used\n");
 	int c = fgetc(f);
+	char *ptr = va_arg(ap, char *);
 	if (c == EOF)
 		return (-1);
-	c = va_arg(ap, int);
+	*ptr = c;
 	return (1);
 }
 
 int scan_int(FILE *f, va_list ap)
 {
 	printf("scan_int used\n");
-	int c;
-	int num = 1;
+	int c = fgetc(f);
+	int *ptr = va_arg(ap, int *);
+	*ptr = 0;
 	int sign = 1;
-	if ((c = fgetc(f)) == '-')
+	int read = 0;
+	if (c == '-')
 		sign = -1;
-	else if ((c = fgetc(f)) == '+')
+	else if (c == '+')
 		sign = 1;
-	if (c == EOF)
+	else if (c == EOF)
 		return (-1);
-	ungetc(c, f);
+	else
+		ungetc(c, f);
 	while (isdigit(c = fgetc(f)) && c != EOF)
-		num = num * 10 + c;
-	ungetc(c, f);
-	num = num * sign;
-	num = va_arg(ap, int);
+	{
+		*ptr = *ptr * 10 + (c - '0');
+		read++;
+	}
+	if (!read)
+		return (0);
+	*ptr = *ptr * sign;
+	if (c != EOF)
+		ungetc(c, f);
 	return (1);
 }
 
 int scan_string(FILE *f, va_list ap)
 {
 	printf("scan_string used\n");
-	int c = fgetc(f);
+	int c;
 	char *s;
 	int i = 0;
-	if (c == EOF)
-		return(-1);
-	ungetc(c, f);
 	s = va_arg(ap, char *);
 	while (!isspace(c = fgetc(f)) && c != EOF)
 	{
@@ -78,9 +84,8 @@ int scan_string(FILE *f, va_list ap)
 	s[i] = '\0';
 	if (i == 0)
 		return (0);
-	if (c == EOF)
-		return(-1);
-	ungetc(c, f);
+	if (isspace(c))
+		ungetc(c, f);
 	return (1);
 }
 

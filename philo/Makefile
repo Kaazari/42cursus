@@ -1,7 +1,7 @@
 ###############################################
 #	SOURCES
 
-SRC		=	main.c utils.c init.c actions.c monitor.c parsing.c output.c routine.c \
+SRC		=	main.c utils.c init.c actions.c monitor.c parsing.c output.c routine.c forks.c \
 
 OBJ		= $(SRC:.c=.o)
 
@@ -9,7 +9,7 @@ CC		= cc
 
 CFLAGS	= -Wall -Wextra -Werror
 
-TFLAGS	= -g3 -pthread -fsanitize=thread
+TFLAGS	= -g3 -pthread
 
 RM		= rm -f
 

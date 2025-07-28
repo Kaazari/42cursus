@@ -1,35 +1,38 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
-void	printer(int *subset, int size)
+// Allowed functions : atoi, printf, malloc, calloc, realloc, free.
+
+int subset[20];
+
+void	print_result(int *subset, int len)
 {
 	int i = 0;
-	while (i < size)
+	while (i < len)
 	{
 		printf("%d", subset[i]);
-		i++;
-		if (i < size)
+		if (i + 1 < len)
 			printf(" ");
+		i++;
 	}
 	printf("\n");
+	return ;
 }
 
-void powerset(int aim, int sum, int *set, int *subset,
-			  int set_index, int subset_size, int total_elements)
+void	solve(int aim, int start, int *set, int *subset, int result, int total, int index)
 {
-	if (set_index == total_elements)
+	if (start >= total)
 	{
-		if (sum == aim)
-			printer(subset, subset_size);  // Bonne taille !
+		if (result == aim)
+			print_result(subset, index);
 		return ;
 	}
 
-	// Inclure set[set_index]
-	subset[subset_size] = set[set_index];
-	powerset(aim, sum + set[set_index], set, subset, set_index + 1, subset_size + 1, total_elements);
-
-	// Exclure set[set_index]
-	powerset(aim, sum, set, subset, set_index + 1, subset_size, total_elements);
+	solve(aim, start + 1, set, subset, result, total, index);
+	subset[index] = set[start];
+	solve(aim, start + 1, set, subset, result + subset[index], total, index + 1);
+	return ;
 }
 
 int	main(int ac, char **av)
@@ -37,17 +40,15 @@ int	main(int ac, char **av)
 	if (ac > 2)
 	{
 		int i = 2;
-		int aim = atoi(av[1]);
-		int *set = calloc(ac - 1, sizeof(int));
-		while (i < ac)
+		int ref = atoi(av[1]);
+		int set[20];
+		while (av[i])
 		{
 			set[i - 2] = atoi(av[i]);
 			i++;
 		}
-		int *subset = calloc(ac - 2, sizeof(int));
-		powerset(aim, 0, set, subset, 0, 0, ac - 2);
-		free(set);
-		free(subset);
+		solve(ref, 0, set, subset, 0, i - 2, 0);
 	}
+	printf("\n");
 	return (0);
 }

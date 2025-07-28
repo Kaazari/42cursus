@@ -26,10 +26,12 @@ void	*death_monitor(void *arg)
 	{
 		pthread_mutex_unlock(&philo->data->finish_mutex);
 		pthread_mutex_unlock(&philo->data->time_eat_mutex);
-		pthread_mutex_lock(&philo->data->print_mutex);
-		write_status("died\n", philo);
-		pthread_mutex_unlock(&philo->data->print_mutex);
-		check_death(philo->data, 1);
+		if (!check_death(philo->data, 1))
+		{
+			pthread_mutex_lock(&philo->data->print_mutex);
+			write_status("died\n", philo);
+			pthread_mutex_unlock(&philo->data->print_mutex);
+		}
 		return (NULL);
 	}
 	pthread_mutex_unlock(&philo->data->finish_mutex);
