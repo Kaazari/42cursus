@@ -5,63 +5,66 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: zdjitte <zdjitte@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/18 20:26:07 by zdjitte           #+#    #+#             */
-/*   Updated: 2025/07/18 20:26:08 by zdjitte          ###   ########.fr       */
+/*   Created: 2025/07/18 20:26:36 by zdjitte           #+#    #+#             */
+/*   Updated: 2025/07/18 20:26:37 by zdjitte          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+long int	get_time(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+}
+
 void	ft_putnbr_fd(long int n, int fd)
 {
-	char	c;
-
+	if (n < 0)
+	{
+		write(fd, "-", 1);
+		n = -n;
+	}
 	if (n >= 10)
 		ft_putnbr_fd(n / 10, fd);
-	c = n % 10 + '0';
-	write(fd, &c, 1);
+	write(fd, &"0123456789"[n % 10], 1);
 }
 
 void	ft_putstr_fd(char *s, int fd)
 {
-	while (*s)
-		write(fd, s++, 1);
-}
+	int	i;
 
-long int	get_time(void)
-{
-	long int		time;
-	struct timeval	current_time;
-
-	time = 0;
-	if (gettimeofday(&current_time, NULL) == -1)
-		return (-1);
-	time = (current_time.tv_sec * 1000) + (current_time.tv_usec / 1000);
-	return (time);
+	i = 0;
+	while (s[i])
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
 }
 
 void	ft_usleep(long int time_ms)
 {
 	long int	start_time;
 
-	start_time = 0;
 	start_time = get_time();
-	while ((get_time() - start_time) < time_ms)
-		usleep(time_ms / 10);
+	while (get_time() - start_time < time_ms)
+		usleep(100);
 }
 
 int	check_death(t_data *data, int set_death)
 {
-	int	status;
-
 	pthread_mutex_lock(&data->death_mutex);
-	if (set_death)
+	if (set_death == 1)
+		data->stop = 1;
+	if (set_death == 2)
+		data->stop = 2;
+	if (data->stop)
 	{
-		status = data->stop;
-		data->stop = set_death;
+		pthread_mutex_unlock(&data->death_mutex);
+		return (1);
 	}
-	else
-		status = data->stop;
 	pthread_mutex_unlock(&data->death_mutex);
-	return (status);
+	return (0);
 }

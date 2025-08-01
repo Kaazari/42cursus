@@ -1,7 +1,7 @@
 ###############################################
 #	SOURCES
 
-SRC		=	main.c utils.c init.c actions.c monitor.c parsing.c output.c routine.c forks.c \
+SRC		=	main.c utils.c init.c actions.c monitor.c parsing.c output.c routine.c forks.c cleanup.c \
 
 OBJ		= $(SRC:.c=.o)
 

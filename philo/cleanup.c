@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   forks.c                                            :+:      :+:    :+:   */
+/*   cleanup.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zdjitte <zdjitte@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,28 +12,39 @@
 
 #include "philo.h"
 
-void	sleep_philosopher(t_philo *philo)
+void	cleanup_simulation(t_data *data)
 {
-	log_state(philo->data, philo->id, "is sleeping");
-	ft_usleep(philo->data->time_to_sleep);
+	free(data->philo);
+	free(data->forks);
+	destroy_mutexes(data);
 }
 
-void	think(t_philo *philo)
+void	error_exit(t_data *data, char *message)
 {
-	log_state(philo->data, philo->id, "is thinking");
+	cleanup_simulation(data);
+	printf("Error: %s\n", message);
+	exit(1);
 }
 
-void	sleep_think(t_philo *philo)
+int	handle_error(t_data *data, int error_code, char *message)
 {
-	think(philo);
-	sleep_philosopher(philo);
+	(void)data;
+	printf("Error: %s\n", message);
+	return (error_code);
 }
 
-void	handle_single_philosopher(t_philo *philo)
+void	destroy_mutexes(t_data *data)
 {
-	pthread_mutex_lock(&philo->data->forks[philo->left_fork]);
-	write_status("has taken a fork", philo);
-	ft_usleep(philo->data->time_to_die);
-	pthread_mutex_unlock(&philo->data->forks[philo->left_fork]);
-	write_status("died", philo);
+	int	i;
+
+	i = 0;
+	while (i < data->philo_count)
+	{
+		pthread_mutex_destroy(&data->forks[i]);
+		i++;
+	}
+	pthread_mutex_destroy(&data->print_mutex);
+	pthread_mutex_destroy(&data->death_mutex);
+	pthread_mutex_destroy(&data->finish_mutex);
+	pthread_mutex_destroy(&data->time_eat_mutex);
 }
