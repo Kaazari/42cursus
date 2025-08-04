@@ -60,7 +60,7 @@ int			check_args(int ac, char **av);
 void		one_philo(t_philo *philo);
 void		init_mutexes(t_data *data);
 void		init_data_struct(int ac, char **av, t_data *data);
-void		init_philo(t_philo *philo, t_data *data);
+int			init_philo(t_philo *philo, t_data *data);
 
 // utils
 int			right_fork(int left, int right);

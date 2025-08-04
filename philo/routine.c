@@ -53,13 +53,13 @@ void	write_status(t_philo *philo, char *s)
 
 void	cleanup_all(t_philo *philo)
 {
-	int	v;
+	int	i;
 
-	v = 0;
-	while (v < philo->data->philo_count)
+	i = 0;
+	while (i < philo->data->philo_count)
 	{
-		pthread_mutex_destroy(&philo->data->forks[v]);
-		v++;
+		pthread_mutex_destroy(&philo->data->forks[i]);
+		i++;
 	}
 	pthread_mutex_destroy(&philo->data->time_mutex);
 	pthread_mutex_destroy(&philo->data->eat_mutex);

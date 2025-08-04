@@ -15,7 +15,7 @@ void	init_data_struct(int ac, char **av, t_data *data)
 	return ;
 }
 
-void	init_philo(t_philo *philo, t_data *data)
+int	init_philo(t_philo *philo, t_data *data)
 {
 	int		i;
 
@@ -23,6 +23,8 @@ void	init_philo(t_philo *philo, t_data *data)
 	init_mutexes(data);
 	data->forks = (pthread_mutex_t *)malloc
 		(sizeof(pthread_mutex_t) * (data->philo_count + 1));
+	if (!data->forks)
+		return (1);
 	while (i < data->philo_count)
 	{
 		philo[i].data = &data[0];
@@ -38,6 +40,7 @@ void	init_philo(t_philo *philo, t_data *data)
 		i++;
 	}
 	i = 0;
+	return (0);
 }
 
 void	init_mutexes(t_data *data)

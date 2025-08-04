@@ -60,25 +60,43 @@ void	*routine(void *arg)
 	return (NULL);
 }
 
+static int	init_all(int ac, char **av, t_data *data, t_philo *philo)
+{
+	init_data_struct(ac, av, data);
+	if (init_philo(philo, data))
+	{
+		free(data);
+		free(philo);
+		return (1);
+	}
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	t_data	*data;
 	t_philo	*philo;
 
-	if (check_args(ac, av))
-		data = malloc(sizeof(t_data));
-	else
+	if (!check_args(ac, av))
 		return (0);
+	data = malloc(sizeof(t_data));
+	if (!data)
+		return (1);
 	philo = malloc(sizeof(t_philo) * (atoi_strict(av[1]) + 1));
-	init_data_struct(ac, av, data);
-	init_philo(philo, data);
+	if (!philo)
+	{
+		free(data);
+		return (1);
+	}
+	if (init_all(ac, av, data, philo))
+		return (1);
 	if (data->philo_count > 1)
 	{
 		start_routine(philo);
 		usleep(10000);
 		cleanup_all(philo);
 	}
-	else
+	else if (data->philo_count == 1)
 		one_philo(philo);
 	return (0);
 }
