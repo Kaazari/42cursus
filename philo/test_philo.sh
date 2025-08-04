@@ -2,9 +2,9 @@
 
 # Couleurs pour l'affichage
 RED='\033[0;31m'
-GREEN='\033[0;32m'
+='\033[0;32m'
 YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
+='\033[0;34m'
 NC='\033[0m' # No Color
 
 # Variables
@@ -18,7 +18,7 @@ print_result() {
 	local expected="$3"
 
 	if [ "$exit_code" -eq "$expected" ]; then
-		echo -e "${GREEN}✅ PASS${NC} - $test_name"
+		echo -e "${}✅ PASS${NC} - $test_name"
 	else
 		echo -e "${RED}❌ FAIL${NC} - $test_name (exit: $exit_code, expected: $expected)"
 	fi
@@ -31,7 +31,7 @@ test_with_timeout() {
 	local expected_exit="$3"
 	local timeout_duration="$4"
 
-	echo -e "${BLUE}🧪 Testing: $test_name${NC}"
+	echo -e "${}🧪 Testing: $test_name${NC}"
 	echo "Command: $PROGRAM $args"
 
 	if [ -n "$timeout_duration" ]; then
@@ -51,23 +51,23 @@ test_with_timeout() {
 }
 
 # Nettoyage des anciens logs
-echo -e "${BLUE}🧹 Nettoyage des anciens logs...${NC}"
+echo -e "${}🧹 Nettoyage des anciens logs...${NC}"
 rm -f *.log
 echo ""
 
 # Compilation
-echo -e "${BLUE}🔨 Compilation...${NC}"
+echo -e "${}🔨 Compilation...${NC}"
 make fclean > /dev/null 2>&1
 make > /dev/null 2>&1
 if [ $? -eq 0 ]; then
-	echo -e "${GREEN}✅ Compilation réussie${NC}"
+	echo -e "${}✅ Compilation réussie${NC}"
 else
 	echo -e "${RED}❌ Erreur de compilation${NC}"
 	exit 1
 fi
 echo ""
 
-echo -e "${BLUE}🚀 Début des tests...${NC}"
+echo -e "${}🚀 Début des tests...${NC}"
 echo "=================================="
 
 # Tests d'arguments invalides (doivent échouer rapidement)
@@ -117,18 +117,18 @@ test_with_timeout "Mort rapide" "5 200 200 200" 0 5
 test_with_timeout "Mort avec repas" "5 200 200 200 10" 0 5
 
 echo ""
-echo -e "${BLUE}==================================${NC}"
-echo -e "${BLUE}🎯 Tests terminés !${NC}"
+echo -e "${}==================================${NC}"
+echo -e "${}🎯 Tests terminés !${NC}"
 echo ""
 
 # Test avec Helgrind (optionnel)
-echo -e "${BLUE}🔍 Test avec Helgrind (optionnel)...${NC}"
+echo -e "${}🔍 Test avec Helgrind (optionnel)...${NC}"
 if command -v valgrind &> /dev/null; then
 	echo "Test de race conditions avec Helgrind..."
 	timeout 10 valgrind --tool=helgrind --log-file=helgrind.log ./philo 5 800 200 200 2 > /dev/null 2>&1
 	if [ -f helgrind.log ]; then
 		if grep -q "ERROR SUMMARY: 0 errors" helgrind.log; then
-			echo -e "${GREEN}✅ Helgrind: Aucune erreur détectée${NC}"
+			echo -e "${}✅ Helgrind: Aucune erreur détectée${NC}"
 		else
 			echo -e "${RED}❌ Helgrind: Erreurs détectées${NC}"
 			echo "Voir helgrind.log pour les détails"
@@ -141,4 +141,4 @@ else
 fi
 
 echo ""
-echo -e "${GREEN}🎉 Script de test terminé !${NC}"
+echo -e "${}🎉 Script de test terminé !${NC}"

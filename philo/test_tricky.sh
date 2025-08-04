@@ -2,12 +2,12 @@
 
 # Couleurs
 RED='\033[0;31m'
-GREEN='\033[0;32m'
+='\033[0;32m'
 YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
+='\033[0;34m'
 NC='\033[0m'
 
-echo -e "${BLUE}🧪 Tests TRICKY pour Philosophers${NC}"
+echo -e "${}🧪 Tests TRICKY pour Philosophers${NC}"
 echo "=================================="
 
 # Compilation
@@ -47,4 +47,4 @@ echo -e "${YELLOW}📋 Test 8: Sans limite de repas (timeout)${NC}"
 timeout 5 ./philo 5 800 200 200
 echo ""
 
-echo -e "${GREEN}✅ Tests tricky terminés !${NC}"
+echo -e "${}✅ Tests tricky terminés !${NC}"

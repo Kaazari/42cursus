@@ -1,70 +1,58 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: zdjitte <zdjitte@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/18 20:26:36 by zdjitte           #+#    #+#             */
-/*   Updated: 2025/07/18 20:26:37 by zdjitte          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "philo.h"
 
-long int	get_time(void)
+int	left_fork(int a, int b)
 {
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
+	if (a < b)
+		return (a);
+	return (b);
 }
 
-void	ft_putnbr_fd(long int n, int fd)
+int	right_fork(int a, int b)
 {
-	if (n < 0)
+	if (a < b)
+		return (b);
+	return (a);
+}
+
+int	atoi_strict(char *s)
+{
+	int	sign;
+	int	res;
+
+	sign = 0;
+	res = 0;
+	while ((s[sign] >= 9 && s[sign] <= 13) || s[sign] == 32)
+		sign++;
+	if (s[sign] == '-')
+		return (-1);
+	if (s[sign] == '+')
+		sign++;
+	while (s[sign] >= '0' && s[sign] <= '9')
 	{
-		write(fd, "-", 1);
-		n = -n;
+		res = res * 10 + (s[sign] - 48);
+		sign++;
 	}
-	if (n >= 10)
-		ft_putnbr_fd(n / 10, fd);
-	write(fd, &"0123456789"[n % 10], 1);
+	return (res);
 }
 
-void	ft_putstr_fd(char *s, int fd)
+int	ft_isdigit(char *s)
 {
 	int	i;
 
 	i = 0;
 	while (s[i])
 	{
-		write(fd, &s[i], 1);
-		i++;
+		if (s[i] >= '0' && s[i] <= '9')
+			i++;
+		else
+			return (0);
 	}
+	return (1);
 }
 
-void	ft_usleep(long int time_ms)
+int	print_error(void)
 {
-	long int	start_time;
-
-	start_time = get_time();
-	while (get_time() - start_time < time_ms)
-		usleep(100);
-}
-
-int	check_death(t_data *data, int set_death)
-{
-	pthread_mutex_lock(&data->death_mutex);
-	if (set_death == 1)
-		data->stop = 1;
-	if (set_death == 2)
-		data->stop = 2;
-	if (data->stop)
-	{
-		pthread_mutex_unlock(&data->death_mutex);
-		return (1);
-	}
-	pthread_mutex_unlock(&data->death_mutex);
+	printf("Please enter: [nb_philos] [time_to_die] [time_to_eat] \
+		[time_to_sleep] [meals_to_eat](last one is an option).\n");
 	return (0);
 }

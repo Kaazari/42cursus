@@ -1,85 +1,72 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   routine.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: zdjitte <zdjitte@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/18 20:26:36 by zdjitte           #+#    #+#             */
-/*   Updated: 2025/07/18 20:26:37 by zdjitte          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "philo.h"
 
-void	*philo_routine(void *arg)
+void	eat(t_philo *philo)
 {
-	t_philo	*philo;
-	int		end_condition;
+	if (death_status(philo->data) == 1)
+		return ;
+	pthread_mutex_lock(&philo->data->forks[left_fork(philo->left_fork,
+			philo->right_fork)]);
+	pthread_mutex_lock(&philo->data->forks[right_fork(philo->left_fork,
+			philo->right_fork)]);
+	write_status(philo, "has taken a fork");
+	write_status(philo, "has taken a fork");
+	(*philo).meals_eaten += 1;
+	write_status(philo, "is eating");
+	ft_usleep((*philo).data->time_to_eat);
+	pthread_mutex_lock(&philo->data->last_meal_mutex);
+	philo->last_meal_time = get_time();
+	pthread_mutex_unlock(&philo->data->last_meal_mutex);
+	pthread_mutex_unlock(&philo->data->forks[left_fork(philo->left_fork,
+			philo->right_fork)]);
+	pthread_mutex_unlock(&philo->data->forks[right_fork(philo->left_fork,
+			philo->right_fork)]);
+}
 
-	philo = (t_philo *)arg;
-	end_condition = 0;
-	while (!end_condition)
+void	time_to_sleep(t_philo *philo)
+{
+	if (death_status(philo->data) == 1)
+		return ;
+	write_status(philo, "is sleeping..." );
+	ft_usleep((*philo).data->time_to_sleep);
+}
+
+void	think(t_philo *philo)
+{
+	if (death_status(philo->data) == 1)
+		return ;
+	write_status(philo, "is thinking...");
+}
+
+void	write_status(t_philo *philo, char *s)
+{
+	pthread_mutex_lock(&philo->data->print_mutex);
+	if (death_status(philo->data) == 1 || philo->data->all_eat == 1)
 	{
-		take_forks(philo);
-		eat(philo);
-		put_down_forks(philo);
-		sleep_philosopher(philo);
-		think(philo);
-		pthread_mutex_lock(&philo->data->death_mutex);
-		if (philo->data->stop || philo->data->finished_count
-			== philo->data->philo_count)
-			end_condition = 1;
-		pthread_mutex_unlock(&philo->data->death_mutex);
+		pthread_mutex_unlock(&philo->data->print_mutex);
+		return ;
 	}
-	return (NULL);
+	printf("%llu %d %s\n",
+		time_to_print(philo->data->time_start), philo->id, s);
+	usleep(6);
+	pthread_mutex_unlock(&philo->data->print_mutex);
 }
 
-void	*philosopher_routine_single(void *arg)
+void	cleanup_all(t_philo *philo)
 {
-	t_philo	*philo;
+	int	v;
 
-	philo = (t_philo *)arg;
-	pthread_mutex_lock(&philo->data->forks[philo->left_fork]);
-	log_state(philo->data, philo->id, "has taken a fork");
-	ft_usleep(philo->data->time_to_die);
-	pthread_mutex_unlock(&philo->data->forks[philo->left_fork]);
-	announce_death(philo->data, philo->id);
-	return (NULL);
-}
-
-int	create_threads(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	pthread_create(&data->monitor_thread, NULL, monitor_routine, data);
-	while (i < data->philo_count)
+	v = 0;
+	while (v < philo->data->philo_count)
 	{
-		pthread_create(&data->philo[i].thread_id, NULL, philo_routine,
-			&data->philo[i]);
-		i++;
+		pthread_mutex_destroy(&philo->data->forks[v]);
+		v++;
 	}
-	return (0);
-}
-
-int	create_single_thread(t_data *data)
-{
-	pthread_create(&data->philo[0].thread_id, NULL,
-		philosopher_routine_single, &data->philo[0]);
-	return (0);
-}
-
-int	join_threads(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	pthread_join(data->monitor_thread, NULL);
-	while (i < data->philo_count)
-	{
-		pthread_join(data->philo[i].thread_id, NULL);
-		i++;
-	}
-	return (0);
+	pthread_mutex_destroy(&philo->data->time_mutex);
+	pthread_mutex_destroy(&philo->data->eat_mutex);
+	pthread_mutex_destroy(&philo->data->print_mutex);
+	pthread_mutex_destroy(&philo->data->death_mutex);
+	pthread_mutex_destroy(&philo->data->last_meal_mutex);
+	free(philo->data->forks);
+	free(philo->data);
+	free(philo);
 }
