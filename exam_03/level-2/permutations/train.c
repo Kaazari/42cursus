@@ -23,7 +23,6 @@ void	solve(int lenght, char *s, int start, char *solution, char *used)
 		return ;
 	}
 	i = 0;
-	int tmp;
 	while (i < lenght)
 	{
 		if (!used[i])

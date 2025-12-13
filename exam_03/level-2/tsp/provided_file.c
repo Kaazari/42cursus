@@ -19,6 +19,16 @@ float tsp(float (*array)[2], ssize_t size)
 	return (best_distance);
 }
 
+
+
+
+
+
+
+
+
+
+
 ssize_t	file_size(FILE *file)
 {
 	char	*buffer = NULL;
