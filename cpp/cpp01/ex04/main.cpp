@@ -1,0 +1,51 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+
+std::string replaceAll(std::string str, std::string s1, std::string s2) {
+	std::string result = "";
+	size_t pos = 0;
+	size_t found;
+
+	while ((found = str.find(s1, pos)) != std::string::npos) {
+		result += str.substr(pos, found - pos);
+		result += s2;
+		pos = found + s1.length();
+	}
+
+	result += str.substr(pos);
+
+	return result;
+}
+
+int main(int argc, char **argv) {
+	if (argc != 4) {
+		std::cerr << "Usage: ./replace <filename> <s1> <s2>" << std::endl;
+		return 1;
+	}
+
+	std::string filename = argv[1];
+	std::string s1 = argv[2];
+	std::string s2 = argv[3];
+
+	// open file
+	std::ifstream infile(filename.c_str());
+	if (!infile.is_open()) {
+		std::cerr << "Error: cannot open " << filename << std::endl;
+		return 1;
+	}
+
+	// output file stream file
+	std::ofstream outfile((filename + ".replace").c_str());
+
+	// gnl
+	std::string line;
+	while (std::getline(infile, line)) {
+		outfile << replaceAll(line, s1, s2) << std::endl;
+	}
+
+	infile.close();
+	outfile.close();
+
+	return 0;
+}
