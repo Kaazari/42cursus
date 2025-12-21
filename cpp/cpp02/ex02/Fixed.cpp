@@ -98,27 +98,27 @@ Fixed Fixed::operator/(const Fixed& other) const {
 
 // Pré-incrémentation : ++a
 Fixed& Fixed::operator++() {
-	_value += (1 << _fractionalBits);
+	_value++;
 	return *this;
 }
 
 // Post-incrémentation : a++
 Fixed Fixed::operator++(int) {
 	Fixed temp(*this);  // Copie l'ancienne valeur
-	_value += (1 << _fractionalBits);
+	_value++;
 	return temp;		// Retourne l'ancienne valeur
 }
 
 // Pré-décrémentation : --a
 Fixed& Fixed::operator--() {
-	_value -= (1 << _fractionalBits);
+	_value--;
 	return *this;
 }
 
 // Post-décrémentation : a--
 Fixed Fixed::operator--(int) {
 	Fixed temp(*this);
-	_value -= (1 << _fractionalBits);
+	_value--;
 	return temp;
 }
 
