@@ -33,7 +33,7 @@ void Harl::complain(std::string level) {
 		}
 	}
 
-	std::cout << INVALID << std::endl;
+	std::cout << "Error: Level does not match any." << std::endl;
 }
 
 

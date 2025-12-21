@@ -1,6 +1,6 @@
 #include "Fixed.hpp"
 
-Fixed::Fixed() {}
+Fixed::Fixed() : _value(0) {}
 
 Fixed::Fixed(const int value) {
 	_value = value << _fractionalBits;
@@ -24,9 +24,9 @@ Fixed::Fixed(const Fixed& other) {
 	*this = other;
 }
 
-Fixed& operator=(const Fixed& other) {
+Fixed& Fixed::operator=(const Fixed& other) {
 	if (this != &other) {
-		_value - other.getRawBits();
+		_value = other.getRawBits();
 	}
 	return *this;
 }
@@ -98,27 +98,27 @@ Fixed Fixed::operator/(const Fixed& other) const {
 
 // Pré-incrémentation : ++a
 Fixed& Fixed::operator++() {
-	_value++;  // Incrémente de la plus petite valeur (1/256)
+	_value += (1 << _fractionalBits);
 	return *this;
 }
 
 // Post-incrémentation : a++
 Fixed Fixed::operator++(int) {
 	Fixed temp(*this);  // Copie l'ancienne valeur
-	++(*this);		  // Incrémente
+	_value += (1 << _fractionalBits);
 	return temp;		// Retourne l'ancienne valeur
 }
 
 // Pré-décrémentation : --a
 Fixed& Fixed::operator--() {
-	_value--;
+	_value -= (1 << _fractionalBits);
 	return *this;
 }
 
 // Post-décrémentation : a--
 Fixed Fixed::operator--(int) {
 	Fixed temp(*this);
-	--(*this);
+	_value -= (1 << _fractionalBits);
 	return temp;
 }
 

@@ -1,6 +1,8 @@
 #ifndef FIXED_HPP
 # define FIXED_HPP
 
+# include <iostream>
+
 class Fixed {
 private:
 	int					_value;
@@ -14,6 +16,6 @@ public:
 
 	int getRawBits() const;
 	void setRawBits(int const raw);
-}
+};
 
 #endif

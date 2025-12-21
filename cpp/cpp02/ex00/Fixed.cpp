@@ -1,26 +1,26 @@
 #include "Fixed.hpp"
 
-Fixed::Fixed() {
-	std::cout << "Called default constructor." << std::endl;
+Fixed::Fixed() : _value(0) {
+	std::cout << "Default constructor called" << std::endl;
 }
 
 Fixed::Fixed(const Fixed& other) {
-	std::cout << "Called copy constructor." << std::endl;
-	*this = other;
+	std::cout << "Copy constructor called" << std::endl;
+	_value = other._value;
 }
 
-// avoid crashes and double free if an assignation is made without.
-// Fixed a; a = b; would result to a copy at the same adress if new is being used somewhere in the class.
-Fixed& operator=(const Fixed& other){
-	std::cout << "Called copy assignment operator." << std::endl;
+Fixed& Fixed::operator=(const Fixed& other){
+	// avoid useless a = a;
+	// not very useful for Fixed (no allocations)
+	std::cout << "Copy assignment operator called" << std::endl;
 	if (this != &other) {
-		_value - other.getRawBits();
+		_value = other.getRawBits();
 	}
 	return *this;
 }
 
 Fixed::~Fixed() {
-	std::cout << "Called destructor." << std::endl;
+	std::cout << "Destructor called" << std::endl;
 }
 
 int Fixed::getRawBits() const {

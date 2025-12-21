@@ -1,6 +1,6 @@
 #include "Fixed.hpp"
 
-Fixed::Fixed() {}
+Fixed::Fixed() : _value(0) {}
 
 Fixed::Fixed(const int value) {
 	_value = value << _fractionalBits;
@@ -21,12 +21,12 @@ int Fixed::toInt() const {
 }
 
 Fixed::Fixed(const Fixed& other) {
-	*this = other;
+	_value = other.getRawBits();
 }
 
-Fixed& operator=(const Fixed& other) {
+Fixed& Fixed::operator=(const Fixed& other) {
 	if (this != &other) {
-		_value - other.getRawBits();
+		_value = other.getRawBits();
 	}
 	return *this;
 }

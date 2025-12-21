@@ -12,6 +12,8 @@ private:
 	void error();
 
 public:
-	typedef void (Harl::*Functions)[];
+	typedef void (Harl::*Functions)();
 	void complain(std::string level);
-}
+};
+
+#endif
