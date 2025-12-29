@@ -9,7 +9,7 @@ CXX_FLAGS	= -Wall -Wextra -Werror -std=c++98
 
 #####################
 
-SRCS		= main.cpp ClapTrap.cpp \
+SRCS		= main.cpp AAnimal.cpp Cat.cpp Dog.cpp Brain.cpp \
 
 OBJS		= $(SRCS:.cpp=.o)
 
