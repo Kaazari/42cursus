@@ -13,7 +13,7 @@ int main() {
 		delete i;
 	}
 
-	std::cout << "\n=== TEST TABLEAU (sujet) ===" << std::endl;
+	std::cout << "\n=== TEST ARRAY ===" << std::endl;
 	{
 		const int size = 4;
 		Animal* animals[size];

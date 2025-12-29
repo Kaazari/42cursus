@@ -4,7 +4,8 @@
 #include "Cat.hpp"
 
 int main() {
-	std::cout << "=== TEST CLASSE ABSTRAITE ===" << std::endl;
+
+	// TEST PURE VIRTUAL (ABSTRACT CLASS)
 
 	// Ne compile pas
 	// AAnimal Aanimal;
@@ -18,7 +19,7 @@ int main() {
 	dog->makeSound();
 	cat->makeSound();
 
-	std::cout << "\n=== TEST TABLEAU ===" << std::endl;
+	std::cout << "\n=== TEST ARRAY ===" << std::endl;
 	{
 		const AAnimal* Aanimals[4];
 
