@@ -39,5 +39,7 @@ int main() {
 			delete Aanimals[i];
 	}
 
+	delete dog;
+	delete cat;
 	return 0;
 }
