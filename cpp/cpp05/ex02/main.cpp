@@ -43,7 +43,7 @@ int main() {
 		Bureaucrat boss("Boss", 1);
 		PresidentialPardonForm pardon2("Ford");
 
-		boss.executeForm(pardon2);  // Pas signé → fail
+		boss.executeForm(pardon2);  // Pas signe → fail
 	} catch (std::exception& e) {
 		std::cerr << "Error: " << e.what() << std::endl;
 	}

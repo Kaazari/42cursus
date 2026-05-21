@@ -102,7 +102,44 @@ char **ft_split(char *s, char c) {
 
 // ft_split
 
+#define BUFFER_SIZE 10
+
 char *read_file(char *filename) {
 	int i = 0;
-	open(filename, O_RDONLY);
+	int fd = 0;
+	if ((fd = open(filename, O_RDONLY)) != -1) {
+		return (NULL);
+	}
+	char buffer[BUFFER_SIZE];
+	int bytes = 0;
+	bytes = read(fd, buffer, BUFFER_SIZE);
+	char *res = malloc(sizeof(char) * BUFFER_SIZE + 1);
+	int j = 0;
+	while ((bytes = read(fd, buffer, BUFFER_SIZE)) > 0) {
+		while (buffer[j]) {
+			res[i] = buffer[j];
+			i++;
+			j++;
+		}
+		// memset(buffer, 0, BUFFER_SIZE);
+		if ((i + bytes) >= BUFFER_SIZE) {
+			realloc(res, BUFFER_SIZE);
+		}
+		j = 0;
+	}
+	res[i] = '\0';
+	return (0);
+}
+
+void ft_putchar(char c) {
+	write(1, &c, 1);
+}
+
+void ft_putnbr(int nb) {
+	int i = 0;
+	char c = 0;
+	while (nb > 0) {
+		ft_putchar((nb % 10) + 48);
+		nb /= 10;
+	}
 }

@@ -28,8 +28,8 @@ int main() {
 		Bureaucrat alice("Alice", 2);
 		std::cout << alice << std::endl;
 		alice.incrementGrade();
-		std::cout << alice << std::endl; // grade 1
-		alice.incrementGrade(); // BOOM
+		std::cout << alice << std::endl;
+		alice.incrementGrade();
 	} catch (std::exception& e) {
 		std::cerr << "Error: " << e.what() << std::endl;
 	}

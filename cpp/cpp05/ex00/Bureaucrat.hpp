@@ -8,7 +8,7 @@
 class Bureaucrat {
 private:
 	const std::string	_name;
-	int					_grade;		// 1 - 150
+	int					_grade;
 
 public:
 	// Constructeur
