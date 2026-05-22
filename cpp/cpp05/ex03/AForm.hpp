@@ -24,10 +24,10 @@ public:
 	virtual ~AForm();
 
 	// Getters
-	const std::string& getName() const;
-	bool isSigned() const;
-	int getGradeToSign() const;
-	int getGradeToExecute() const;
+	const std::string& getName() const { return _name; }
+	bool isSigned() const { return _is_signed; }
+	int getGradeToSign() const { return _gradeToSign; }
+	int getGradeToExecute() const { return _gradeToExecute; }
 
 	// Actions
 	void beSigned(const Bureaucrat& bureaucrat);

@@ -13,10 +13,7 @@ private:
 	int					_grade;		// 1 - 150
 
 public:
-	// Constructeur
 	Bureaucrat(const std::string& name, int grade);
-
-	// Canonical form
 	Bureaucrat(const Bureaucrat& other);
 	Bureaucrat& operator=(const Bureaucrat& other);
 	~Bureaucrat();

@@ -8,10 +8,10 @@ int main() {
 	std::cout << "=== TEST 1: Shrubbery ===" << std::endl;
 	try {
 		Bureaucrat bob("Bob", 137);
-		ShrubberyCreationForm shrubbery("home");
+		ShrubberyCreationForm shrubbery("garden");
 
 		bob.signForm(shrubbery);
-		bob.executeForm(shrubbery);  // Crée fichier home_shrubbery
+		bob.executeForm(shrubbery);
 	} catch (std::exception& e) {
 		std::cerr << "Error: " << e.what() << std::endl;
 	}

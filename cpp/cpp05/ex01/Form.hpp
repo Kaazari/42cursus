@@ -15,10 +15,7 @@ private:
 	const int _gradeToExecute;
 
 public:
-	// Constructor
 	Form(const std::string& name, int gradeToSign, int gradeToExecute);
-
-	// Canonical
 	Form(const Form& other);
 	Form& operator=(const Form& other);
 	~Form();
@@ -46,6 +43,13 @@ public:
 			return "Grade is too low!";
 		}
 	};
+
+	class AlreadySignedException : public std::exception {
+	public:
+		virtual const char* what() const throw() {
+			return "form is already signed";
+		}
+};
 };
 
 std::ostream& operator<<(std::ostream& out, const Form& b);
