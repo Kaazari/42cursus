@@ -40,7 +40,7 @@ int Span::shortestSpan() const {
 	return minSpan;
 }
 
-int longestSpan() const {
+int Span::longestSpan() const {
 	if (_numbers.size() < 2)
 		throw NoSpanException();
 

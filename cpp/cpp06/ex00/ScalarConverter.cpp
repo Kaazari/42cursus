@@ -2,9 +2,10 @@
 
 ScalarConverter::ScalarConverter() {}
 
-ScalarConverter::ScalarConverter(const ScalarConverter& other) {}
+ScalarConverter::ScalarConverter(const ScalarConverter& other) { (void)other; }
 
 ScalarConverter& ScalarConverter::operator=(const ScalarConverter& other) {
+	(void)other;
 	return *this;
 }
 
@@ -41,11 +42,11 @@ void ScalarConverter::PrintChar(const std::string& input) {
 	int n;
 	std::istringstream iss(input);
 	iss >> n;
-	char c = static_cast<char>(n);
+	unsigned char c = static_cast<unsigned char>(n);
 	if (c >= 32 && c <= 127) {
 		std::cout << "char: " << "'" << c << "'" << std::endl;
 	}
-	else if (n < 0 || n > 127)  // ← AJOUTE CE CHECK
+	else if (n < 0 || n > 127)
 		std::cout << "impossible" << std::endl;
 	else {
 		std::cout << "char: " << "Non displayable" << std::endl;

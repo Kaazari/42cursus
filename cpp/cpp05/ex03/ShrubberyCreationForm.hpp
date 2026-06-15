@@ -14,7 +14,6 @@ public:
 	ShrubberyCreationForm& operator=(const ShrubberyCreationForm& other);
 	virtual ~ShrubberyCreationForm();
 
-	// Override execute
 	virtual void execute(const Bureaucrat& executor) const;
 };
 

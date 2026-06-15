@@ -11,15 +11,15 @@
 
 class ScalarConverter {
 private:
+
+// Print
+static void PrintChar(const std::string& input);
+static void PrintInt(const std::string& input);
+static void PrintFloat(const std::string& input);
+static void PrintDouble(const std::string& input);
+
+// Canonical
 	ScalarConverter();
-
-	// Print
-	static void PrintChar(const std::string& input);
-	static void PrintInt(const std::string& input);
-	static void PrintFloat(const std::string& input);
-	static void PrintDouble(const std::string& input);
-
-	// Canonical
 	ScalarConverter(const ScalarConverter& other);
 	ScalarConverter& operator=(const ScalarConverter& other);
 	~ScalarConverter();

@@ -206,6 +206,85 @@ form3->execute();  // Affiche un message
 - Oublier `virtual ~AForm()` = memory leak
 - Classe abstraite ne peut PAS être instanciée: `AForm f;` → erreur
 
+### ✅ EX03 - Intern
+
+**But:** Une classe sans grade ni nom qui peut créer n'importe quel formulaire sans if/else
+
+**Concept:** Array de function pointers pour éviter le branching
+
+**Code clé EXPLIQUÉ:**
+
+```cpp
+class Intern {
+public:
+    // Fonctions statiques = pas besoin d'instance pour les appeler
+    static AForm* makeShrubbery(std::string target) {
+        return new ShrubberyCreationForm(target);
+    }
+    static AForm* makeRobotomy(std::string target) {
+        return new RobotomyRequestForm(target);
+    }
+    static AForm* makePresidential(std::string target) {
+        return new PresidentialPardonForm(target);
+    }
+
+    AForm* makeForm(std::string name, std::string target) {
+        // Array de strings (les noms)
+        std::string names[3] = {
+            "shrubbery creation",
+            "robotomy request",
+            "presidential pardon"
+        };
+
+        // Array de pointeurs vers fonctions
+        // Syntaxe: ReturnType (*arrayName[size])(ParamType)
+        AForm* (*creators[3])(std::string) = {
+            &Intern::makeShrubbery,
+            &Intern::makeRobotomy,
+            &Intern::makePresidential
+        };
+        // Chaque case = pointeur vers une fonction qui prend string et retourne AForm*
+        // Les 3 fonctions ont le même "shape" → peuvent cohabiter dans le même array
+
+        for (int i = 0; i < 3; i++) {
+            if (names[i] == name) {
+                std::cout << "Intern creates " << name << std::endl;
+                return creators[i](target);  // Appelle la bonne fonction
+            }
+        }
+
+        std::cerr << "Error: form '" << name << "' does not exist" << std::endl;
+        return NULL;
+    }
+};
+
+// Utilisation
+int main() {
+    Intern intern;
+    AForm* form = intern.makeForm("robotomy request", "Bender");
+    // Intern creates robotomy request
+
+    if (form) {
+        // utilise form...
+        delete form;  // OBLIGATOIRE, Intern alloue avec new
+    }
+}
+```
+
+**Pourquoi `static` sur les creators ?**
+- Sans `static` → la syntaxe du array devient beaucoup plus complexe
+- Avec `static` → la fonction n'appartient pas à une instance, donc même syntaxe qu'une fonction normale
+- Inconvénient : pas accès aux attributs de l'instance (mais Intern n'en a pas, donc pas grave)
+
+**Pourquoi `AForm*` comme return type commun ?**
+- Les 3 fonctions retournent des types différents (`ShrubberyCreationForm*`, etc.)
+- Pour les mettre dans le même array, il faut un type commun
+- `AForm*` fonctionne car toutes les classes héritent de `AForm` → polymorphisme
+
+**Piège principal :**
+- Penser à `delete` le form après utilisation (Intern alloue avec `new`, c'est toi qui libères)
+- Ne jamais utiliser `if/else` branching → éliminatoire à l'éval
+
 ---
 
 # CPP06 - CASTS (CONVERSIONS)

@@ -3,7 +3,7 @@
 int main() {
 	std::cout << "=== Test 1: Valid creation ===" << std::endl;
 	try {
-		Bureaucrat bob("Bob", 75);
+		Bureaucrat bob("Bob", 1200);
 		std::cout << bob << std::endl;
 	} catch (std::exception& e) {
 		std::cerr << "Error: " << e.what() << std::endl;

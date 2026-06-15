@@ -19,15 +19,13 @@ ShrubberyCreationForm& ShrubberyCreationForm::operator=(const ShrubberyCreationF
 ShrubberyCreationForm::~ShrubberyCreationForm() {}
 
 void ShrubberyCreationForm::execute(const Bureaucrat& executor) const {
-	// Check si signé
 	if (!isSigned())
 		throw FormNotSignedException();
 
-	// Check grade executor
 	if (executor.getGrade() > getGradeToExecute())
 		throw GradeTooLowException();
 
-	// Action: créer fichier avec arbre ASCII
+	// Action: fichier avec arbre ASCII
 	std::string filename = _target + "_shrubbery";
 	std::ofstream file(filename.c_str());
 
