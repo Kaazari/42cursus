@@ -1,5 +1,7 @@
 #include "Train.hpp"
 
+// ---------- Contact
+
 Contact::Contact() :
 _firstName("xxxxx"), _lastName("xxxxx"), _age(0) {}
 
@@ -26,4 +28,7 @@ int Contact::getAge() { return (_age); }
 void Contact::displayInfo() {
 	std::cout << _firstName << _lastName << _age << std::endl;
 }
+
+// ---------- Data
+
 

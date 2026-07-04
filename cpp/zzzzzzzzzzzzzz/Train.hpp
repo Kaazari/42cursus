@@ -3,6 +3,9 @@
 
 # include <iostream>
 
+
+
+
 class Contact {
 private:
 
@@ -32,5 +35,16 @@ int getAge();
 void displayInfo();
 
 };
+
+
+class Data {
+	
+}
+
+
+
+
+
+
 
 #endif

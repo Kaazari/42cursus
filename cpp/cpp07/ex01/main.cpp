@@ -1,6 +1,6 @@
 #include <iostream>
 #include <string>
-#include "iter.hpp"
+#include "Iter.hpp"
 
 // Test functions
 template <typename T>
