@@ -48,12 +48,12 @@ Array<T>::~Array() {
 template <typename T>
 Array<T>& Array<T>::operator=(Array const& rhs) {
 	if (this != &rhs) {
+		T* new_data = new T[rhs._size]();
+		for (unsigned int i = 0; i < rhs._size; i++)
+			new_data[i] = rhs._data[i];
 		delete[] _data;
-
+		_data = new_data;
 		_size = rhs._size;
-		_data = new T[_size]();
-		for (unsigned int i = 0; i < _size; i++)
-			_data[i] = rhs._data[i];
 	}
 	return *this;
 }
