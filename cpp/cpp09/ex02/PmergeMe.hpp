@@ -6,26 +6,27 @@
 #include <string>
 #include <iostream>
 #include <sstream>
-#include <algorithm>
-#include <ctime>
+#include <exception>
 #include <sys/time.h>
 
 class PmergeMe {
 private:
-	std::vector<int> _vec;
-	std::deque<int>  _deq;
+	std::vector<int> _input;
 
 	PmergeMe();
 
-	// Ford-Johnson for vector
-	void mergeInsertSortVec(std::vector<int>& arr, int left, int right);
-	void insertionSortVec(std::vector<int>& arr, int left, int right);
-	void mergeVec(std::vector<int>& arr, int left, int mid, int right);
+	// Jacobsthal insertion order (pure index math, shared by both containers)
+	std::vector<size_t> jacobOrder(size_t pendSize);
 
-	// Ford-Johnson for deque
-	void mergeInsertSortDeq(std::deque<int>& arr, int left, int right);
-	void insertionSortDeq(std::deque<int>& arr, int left, int right);
-	void mergeDeq(std::deque<int>& arr, int left, int mid, int right);
+	// ---- Ford-Johnson for std::vector ----
+	void sortPairsByFirstVec(std::vector<std::pair<int, int> >& p);
+	void binaryInsertVec(std::vector<int>& chain, int value);
+	void fordJohnsonVec(std::vector<int>& v);
+
+	// ---- Ford-Johnson for std::deque ----
+	void sortPairsByFirstDeq(std::deque<std::pair<int, int> >& p);
+	void binaryInsertDeq(std::deque<int>& chain, int value);
+	void fordJohnsonDeq(std::deque<int>& v);
 
 public:
 	PmergeMe(int argc, char** argv);
@@ -37,9 +38,7 @@ public:
 
 	class InvalidArgumentException : public std::exception {
 	public:
-		virtual const char* what() const throw() {
-			return "Error: Invalid argument";
-		}
+		virtual const char* what() const throw() { return "Error: Invalid argument"; }
 	};
 };
 

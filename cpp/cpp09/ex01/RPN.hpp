@@ -1,4 +1,3 @@
-// RPN.hpp
 #ifndef RPN_HPP
 #define RPN_HPP
 
@@ -8,6 +7,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <cstdlib>
+#include <cctype>
 
 class RPN {
 private:

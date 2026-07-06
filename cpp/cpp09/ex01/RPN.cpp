@@ -23,7 +23,7 @@ bool RPN::isOperator(std::string const& token) {
 bool RPN::isNumber(std::string const& token) {
 	if (token.empty())
 		return false;
-	if (token.length() == 1 && isdigit(token[0]))
+	if (token.length() == 1 && isdigit(static_cast<unsigned char>(token[0])))
 		return true;
 	return false;
 }

@@ -9,7 +9,7 @@ CXX_FLAGS			= -Wall -Wextra -Werror -std=c++98
 
 ##########################
 
-SRCS				= main.cpp PmergeMe.cpp
+SRCS				= main.cpp PmergeMe.cpp \
 
 OBJS				= $(SRCS:.cpp=.o)
 
