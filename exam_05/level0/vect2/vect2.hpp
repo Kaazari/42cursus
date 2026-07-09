@@ -1,13 +1,12 @@
 #ifndef VECT2_HPP
-#define VECT2_HPP
+# define VECT2_HPP
 
-// # include <stdio>
-// # include <sstream>
+# include <iostream>
 
 class vect2 {
 private:
-	int v1;
-	int v2;
+	int _v1;
+	int _v2;
 
 public:
 	vect2();
