@@ -1,6 +1,7 @@
 #ifndef VECT2_HPP
 # define VECT2_HPP
 
+#include <cstdlib>
 #include <iostream>
 
 class vect2 {
@@ -23,13 +24,13 @@ public:
 	vect2& operator+=(const vect2& other);
 	vect2& operator-=(const vect2& other);
 	vect2& operator*=(int scalar);
-	vect2& operator-();
 	vect2& operator++();
 	vect2& operator--();
 	vect2 operator++(int);
 	vect2 operator--(int);
-	bool operator==(const vect2& other);
-	bool operator!=(const vect2& other);
+	vect2 operator-() const;
+	bool operator==(const vect2& other) const;
+	bool operator!=(const vect2& other) const;
 };
 
 std::ostream& operator<<(std::ostream& out, const vect2& other);

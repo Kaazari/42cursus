@@ -3,24 +3,24 @@
 #include <unistd.h>
 
 int main(int ac, char **av) {
+	// putchar('k');
 	if (ac != 4) return 1;
 
-	int height = atoi(av[1]);
-	int width = atoi(av[2]);
+	int width = atoi(av[1]);
+	int height = atoi(av[2]);
 	int it = atoi(av[3]);
-	if (height <= 0 || width <= 0 || it < 0) return 1;
+	if (height < 1 || width < 1 || it < 0) return 1;
 	int grid[2][height + 2][width + 2];
 
-	for (int i = 0; i < 2; i++) {
-		for (int h = 0; h < height + 2; h++) {
+	for (int i = 0; i < 2; i++)
+		for (int h = 0; h < height + 2; h++)
 			for (int w = 0; w < width + 2; w++) grid[i][h][w] = 0;
-		}
-	}
 
-	int x = 1, y = 1, pen = 0;
+	int x = 1, y = 1;
+	int pen = 0;
 	char cmd;
 
-	while(read(0, &cmd, 1) > 0) {
+	while (read(0, &cmd, 1) > 0) {
 		if (cmd == 'x') pen = !pen;
 		else if (cmd == 'w' && x > 1) x--;
 		else if (cmd == 'a' && y > 1) y--;
@@ -29,17 +29,15 @@ int main(int ac, char **av) {
 		if (pen) grid[0][x][y] = 1;
 	}
 
-	// it loop nb 2/3 -1 to 1
+	// it -1 1 2 3
 	for (int i = 0; i < it; i++) {
 		for (int h = 1; h < height + 1; h++) {
 			for (int w = 1; w < width + 1; w++) {
 				int nb = 0;
 				for (int x = -1; x <= 1; x++) {
-					for (int y = -1; y <= 1; y++) {
-						if (!(x == 0 && y == 0)) nb += grid[i % 2][h + x][w + y];
-					}
+					for (int y = -1; y <= 1; y++) if (!(x == 0 && y == 0)) nb += grid[i % 2][h + x][w + y];
 				}
-				if (((nb == 2 || nb == 3) && grid[i % 2][h][w]) || nb == 3)	grid[(i+1)%2][h][w] = 1;
+				if (((nb == 2 || nb == 3) && grid[i % 2][h][w]) || nb == 3) grid[(i + 1) % 2][h][w] = 1;
 				else grid[(i + 1) % 2][h][w] = 0;
 			}
 		}
@@ -49,6 +47,4 @@ int main(int ac, char **av) {
 		for (int w = 1; w < width + 1; w++) putchar(grid[it % 2][h][w] ? '0' : ' ');
 		putchar('\n');
 	}
-
-	return 0;
 }

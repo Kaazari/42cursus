@@ -36,4 +36,9 @@ int main()
     std::cout << "v1 == v1: " << (v1 == v1) << std::endl;
     std::cout << "v1 != v3: " << (v1 != v3) << std::endl;
     std::cout << "v1 != v1: " << (v1 != v1) << std::endl;
+	std::cout << "=== TEST operator- unaire ===" << std::endl;
+	vect2 vt(5, 10);
+	std::cout << "vt avant: " << vt << std::endl;
+	std::cout << "-vt: " << -vt << std::endl;
+	std::cout << "vt apres: " << vt << std::endl;  // doit etre identique a avant !
 }

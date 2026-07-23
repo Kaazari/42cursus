@@ -19,3 +19,4 @@ bool searchable_array_bag::has(int value) const {
 	}
 	return false;
 }
+

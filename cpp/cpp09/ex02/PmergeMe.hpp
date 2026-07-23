@@ -18,12 +18,12 @@ private:
 	// Jacobsthal insertion order (pure index math, shared by both containers)
 	std::vector<size_t> jacobOrder(size_t pendSize);
 
-	// ---- Ford-Johnson for std::vector ----
+	// Ford-Johnson for std::vector
 	void sortPairsByFirstVec(std::vector<std::pair<int, int> >& p);
 	void binaryInsertVec(std::vector<int>& chain, int value);
 	void fordJohnsonVec(std::vector<int>& v);
 
-	// ---- Ford-Johnson for std::deque ----
+	// Ford-Johnson for std::deque
 	void sortPairsByFirstDeq(std::deque<std::pair<int, int> >& p);
 	void binaryInsertDeq(std::deque<int>& chain, int value);
 	void fordJohnsonDeq(std::deque<int>& v);
